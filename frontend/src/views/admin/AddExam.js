@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import QuestionsList from './ListQuestion';
+
 const Exam = () => {
   const [exam, setExam] = useState(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -8,8 +10,8 @@ const Exam = () => {
 
   useEffect(() => {
     const fetchExam = async () => {
-      const response = await axios.get('/api/exams/current');
-      setExam(response.data);
+      const response = QuestionsList
+      setExam(response);
     };
     fetchExam();
   }, []);
