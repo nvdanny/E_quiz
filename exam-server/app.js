@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const dotenv = require('dotenv').config;
+require('dotenv').config();
 const bodyParser = require('body-parser');
 const config = require('./config');
 const swaggerJsdoc = require("swagger-jsdoc");
@@ -14,17 +14,17 @@ const examRoutes = require('./routes/exams');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-mongoose.connect(config.mongoURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-});
+mongoose.connect(config.mongoURI);
+const connection = mongoose.connection;
+connection.once('open', () => {
+    console.log("Database connection established successfully");
+}) 
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use('/api/auth', authRoutes);
-app.use('/api/questions', questionRoutes);
-app.use('/api/exams', examRoutes);
+// app.use('/api/auth', authRoutes);
+// app.use('/api/questions', questionRoutes);
+// app.use('/api/exams', examRoutes);
 
 const options = {
   definition: {

@@ -1,5 +1,5 @@
 module.exports = {
-    mongoURI: '',
+    mongoURI: process.env.mongoURI,
     secretOrKey: '',
   };
   
