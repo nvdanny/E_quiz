@@ -13,6 +13,9 @@ import {
   CFormTextarea
 } from '@coreui/react';
 
+const CLOUDINARY_URL = process.env.REACT_APP_CLOUDINARY_URL;
+const CLOUDINARY_UPLOAD_PRESET = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
+
 const AddQuestion = () => {
   const [text, setText] = useState('');
   const [options, setOptions] = useState([
@@ -21,6 +24,7 @@ const AddQuestion = () => {
     { text: '', isCorrect: false },
     { text: '', isCorrect: false },
   ]);
+  const [image, setImage] = useState(null);
 
   const handleAddOption = () => {
     setOptions([...options, { text: '', isCorrect: false }]);
@@ -37,12 +41,43 @@ const AddQuestion = () => {
     setOptions(options.filter((_, idx) => idx !== index));
   };
 
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+      
+      try {
+        const response = await axios.post(CLOUDINARY_URL, formData);
+        setImage(response.data.secure_url);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // const response = await axios.post('/api/questions/add', { text, options });
+      // Prepare form data
+      const formData = new FormData();
+      formData.append('text', text);
+      formData.append('options', JSON.stringify(options));
+      if (image) {
+        formData.append('image', image);
+      }
+
+      // Send the request
+      // const response = await axios.post('/api/questions/add', formData, {
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data'
+      //   }
+      // });
       // console.log(response.data);
-      console.log(options)
+      console.log({ text, options, image });
+
+      // Reset form
       setText('');
       setOptions([
         { text: '', isCorrect: false },
@@ -50,6 +85,7 @@ const AddQuestion = () => {
         { text: '', isCorrect: false },
         { text: '', isCorrect: false },
       ]);
+      setImage(null);
     } catch (err) {
       console.error(err);
     }
@@ -73,8 +109,20 @@ const AddQuestion = () => {
                 onChange={(e) => setText(e.target.value)}
                 rows={4}
               />
+              {image && (
+                <div className="mt-3">
+                  <img src={image} alt="Question" style={{ maxWidth: '100%', height: 'auto' }} />
+                </div>
+              )}
             </CCol>
-
+            <CCol sm="2">
+              <CFormInput
+                type="file"
+                accept="image/*"
+                placeholder='Thêm ảnh'
+                onChange={handleImageChange}
+              />
+            </CCol>
           </CRow>
           {options.map((option, index) => (
             <CRow className="mb-3" key={index}>
