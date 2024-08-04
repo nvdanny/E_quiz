@@ -2,6 +2,7 @@ import React, { Suspense } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom' // Sử dụng BrowserRouter thay vì HashRouter
 import { CSpinner } from '@coreui/react'
 import './scss/style.scss'
+import {Cloudinary} from "@cloudinary/url-gen";
 
 // Lazy load the components
 const ExamPage = React.lazy(() => import('./views/pages/ExamPage'))
@@ -10,6 +11,11 @@ const Logout = React.lazy(() => import('./views/pages/Logout'))
 const Register = React.lazy(() => import('./views/pages/Register'))
 const LandingPage = React.lazy(() => import('./views/pages/LandingPage'))
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
+const cld = new Cloudinary({
+  cloud: {
+    cloudName: 'dxoenxs1a'
+  }
+});
 
 function App() {
   return (
