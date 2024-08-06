@@ -7,14 +7,15 @@ const authService = require('../services/authService');
 module.exports = {
   signUp : async (req, res) => {
     try {
-      const response  = authService.signUp(req.body);
+      const response  = await authService.signUp(req.body);
+      console.log(response)
       if (response.error) {
         return res.status(400).json({ msg: response.error });
       }
-      return res.status(200).json({ msg: "Sign up successfully"});
+      return res.status(200).json(response);
     }
     catch(err) {
-      return res.status(500).json({ msg: "Server error" });
+      return res.status(500).json({ msg: err });
     }
   },
   
