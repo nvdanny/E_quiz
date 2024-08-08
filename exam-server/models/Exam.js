@@ -2,10 +2,36 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const examSchema = new Schema({
-  name: { type: String, required: true },
-  questions: [{ type: Schema.Types.ObjectId, ref: 'Question' }],
-  duration: { type: Number, required: true },
-  logs: [{ userId: Schema.Types.ObjectId, score: Number, submittedAt: Date }],
+  title: {
+    type: String,
+    required: true
+  },
+  description: String,
+  duration: {
+    type: Number,
+    required: true 
+  },
+  start: {
+    type: Date,
+    required: true
+  },
+  end: {
+    type: Date,
+    required: true
+  },
+  questions : [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Question',
+    required : false
+  }],
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
+  },
 });
 
 module.exports = mongoose.model('Exam', examSchema);

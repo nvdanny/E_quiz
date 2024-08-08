@@ -1,51 +1,48 @@
-const User = require('../models/User');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const config = require('../config');
+// const User = require('../models/User');
+// const bcrypt = require('bcryptjs');
+// const jwt = require('jsonwebtoken');
+// const config = require('../config');
+const authService = require('../services/authService');
 
-exports.register = async (req, res) => {
-  const { username, password } = req.body;
-  try {
-    const user = await User.findOne({ username });
-    if (user) {
-      return res.status(400).json({ msg: 'User already exists' });
+module.exports = {
+  signUp : async (req, res) => {
+    try {
+      const response  = await authService.signUp(req.body);
+      console.log(response)
+      if (response.error) {
+        return res.status(400).json({ msg: response.error });
+      }
+      return res.status(200).json(response);
     }
+    catch(err) {
+      return res.status(500).json({ msg: err });
+    }
+  },
+  
+  signIn : async (req, res) => {
+    try {
+      const response = await authService.signIn(req.body);
+      if (response.error) {
+        return res.status(400).json({ msg: response.error });
+      }
+      return res.status(200).json(response);
+    }
+    catch(err) {
+      return res.status(500).json({ msg: "Server error" });
+    }
+  },
 
-    const newUser = new User({ username, password });
-    const salt = await bcrypt.genSalt(10);
-    newUser.password = await bcrypt.hash(password, salt);
+  signOut: async (req, res) => {
+    try {
+      res.clearCookie("accessToken");
+      return res.status(200).json("Sign out successfully");
+    }
+    catch(err) {
+      return res.status(500).json({ msg: "Server error" });
+    }
+  },
 
-    await newUser.save();
+  forgetPassword: async(req, res) => {
 
-    const payload = { id: newUser.id, username: newUser.username };
-    jwt.sign(payload, config.secretOrKey, { expiresIn: '1h' }, (err, token) => {
-      if (err) throw err;
-      res.json({ token });
-    });
-  } catch (err) {
-    res.status(500).json({ msg: 'Server error' });
   }
-};
-
-exports.login = async (req, res) => {
-  const { username, password } = req.body;
-  try {
-    const user = await User.findOne({ username });
-    if (!user) {
-      return res.status(400).json({ msg: 'Invalid credentials' });
-    }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ msg: 'Invalid credentials' });
-    }
-
-    const payload = { id: user.id, username: user.username };
-    jwt.sign(payload, config.secretOrKey, { expiresIn: '1h' }, (err, token) => {
-      if (err) throw err;
-      res.json({ token });
-    });
-  } catch (err) {
-    res.status(500).json({ msg: 'Server error' });
-  }
-};
+}

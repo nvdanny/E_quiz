@@ -2,8 +2,22 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const questionSchema = new Schema({
-  text: { type: String, required: true },
-  options: [{ text: String, isCorrect: Boolean }],
-});
+    description: {
+        type: String,
+        required: true,
+    },
+    imageUrl: {
+        type: String,
+        required: false,
+    },
+    options: [{
+        text: String,
+        isCorrect: Boolean,
+        imageUrl: {
+            type: String,
+            required: false,
+        }
+    }],
+  })
 
-module.exports = mongoose.model('Question', questionSchema);
+  module.exports = mongoose.model("Question", questionSchema);
