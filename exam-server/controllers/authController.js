@@ -21,16 +21,27 @@ module.exports = {
   
   signIn : async (req, res) => {
     try {
-      const response = authService.signIn(req.body);
+      const response = await authService.signIn(req.body);
       if (response.error) {
         return res.status(400).json({ msg: response.error });
       }
-      return res.status(200).json({ msg: "Sign in successfully" });
+      return res.status(200).json(response);
     }
     catch(err) {
       return res.status(500).json({ msg: "Server error" });
     }
   },
+
+  signOut: async (req, res) => {
+    try {
+      res.clearCookie("accessToken");
+      return res.status(200).json("Sign out successfully");
+    }
+    catch(err) {
+      return res.status(500).json({ msg: "Server error" });
+    }
+  },
+
   forgetPassword: async(req, res) => {
 
   }

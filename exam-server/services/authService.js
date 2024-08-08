@@ -5,7 +5,7 @@ const config = require('../config');
 module.exports = {
     signUp: async (data) => {
       try {
-        const {username, password, email, phoneNumber} = data;
+        const {username, password, email, phoneNumber, birthday, university, major, year, studentId, linkFb} = data;
         const user = await User.findOne({ $or: [{ email: email }, { phoneNumber: phoneNumber }]});
         if (user) {
           return {
@@ -13,17 +13,24 @@ module.exports = {
           }
         }
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({
+        let newUser = new User({
           username: username,
           password: hashedPassword,
           phoneNumber: phoneNumber,
           email: email,
+          birthday: birthday,
+          university: university,
+          major: major,
+          year: year,
+          linkFb: linkFb,
+          studentId: studentId
         })
-        await User.create(newUser);
-        const payload = { id: newUser._id.toString(), role: newUser.role};
+        newUser = await User.create(newUser);
+        const payload = { id: newUser._id, role: newUser.role};
         const token = jwt.sign(payload, config.secretOrKey, { expiresIn: '6h' });
         return {
-          token,
+          accessToken: token,
+          data: newUser,
         }
       }
       catch (err) {
@@ -34,28 +41,27 @@ module.exports = {
     },
     signIn: async (data) => {
       try {
-        const {username, password} = data;
-        const user = await User.findOne({userName: username});
+        const {email, password} = data;
+        const user = await User.findOne({email: email});
         if (!user) {
           return {
-            error: 'Invalid credentials',
+            error: 'Email not found',
           };
         }
-    
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
           return {
-            error: 'Invalid credentials',
+            error: 'Invalid password',
           }
         }
-    
-        const payload = { id: user.id, role: user.role };
-        jwt.sign(payload, config.secretOrKey, { expiresIn: '1h' }, (err, token) => {
-          if (err) throw err;
-          return {
-            token,
-          };
-        });
+        const payload = { id: user._id, role: user.role };
+        const accessToken = jwt.sign(payload, config.secretOrKey, { expiresIn: '1h' });
+        const userObj = user.toObject();
+        delete userObj.password;
+        return {
+          data: userObj,
+          accessToken: accessToken,
+        }
       } catch (err) {
         return {
           error: 'Server error'
