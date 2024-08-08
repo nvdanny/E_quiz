@@ -1,42 +1,83 @@
+const examService = require('../services/examService');
 const Exam = require('../models/Exam');
 
 module.exports = {
   createExam : async (req, res) => {
-    const { title, description, duration } = req.body;
     try {
-      const newExam = new Exam({ title, description, duration });
-      await newExam.save();
-      res.status(201).json(newExam);
-    } catch (err) {
-      res.status(500).json({ msg: 'Server error' });
+      const data = req.body;
+      const response = await examService.createExam(data);
+      if (response.error) {
+        res.status(400).json({ msg: 'Unable to create exam' });
+      }
+      res.status(200).json({ msg: response });
+    }
+    catch(err) {
+      res.status(500).json({ msg: "Server Error" });
     }
   },
-  getCurrentExam : async (req, res) => {
+
+  editExam: async (req, res) => {
     try {
-      const exam = await Exam.findOne().populate('questions');
-      res.json(exam);
+      const data = req.body;
+      const response = await examService.editExam(data);
+      if (response.error) {
+        res.status(400).json({ msg: 'Unable to edit exam' });
+      }
+      res.status(200).json({ msg: response })
+    }
+    catch(err) {
+      res.status(500).json({ msg: "Server Error" });
+    }
+  },
+
+  deleteExam: async (req, res) => {
+
+  },
+
+  getExam : async (req, res) => {
+    try {
+      const data = req.body;
+      const response = await examService.getExam(data);
+      if (response.error) {
+        res.status(400).json({ msg: 'Error' });
+      }
+      res.status(200).json({ msg: response })
     } catch (err) {
       res.status(500).json({ msg: 'Server error' });
     }
   },
   
-  submitExam : async (req, res) => {
-    const { userId, answers } = req.body;
+  getAllExam: async (req, res) => {
     try {
-      const exam = await Exam.findOne().populate('questions');
-      let score = 0;
-      exam.questions.forEach((question, index) => {
-        if (question.options[answers[index]].isCorrect) {
-          score++;
-        }
-      });
-  
-      exam.logs.push({ userId, score, submittedAt: new Date() });
-      await exam.save();
-  
-      res.json({ score });
-    } catch (err) {
+      const data = req.body;
+      const exams = await examService.getAllExam(data);
+      if (response.error) {
+        res.status(400).json({ msg: 'Error' });
+      }
+      res.status(200).json({ msg: response });
+    }
+    catch (err) {
       res.status(500).json({ msg: 'Server error' });
     }
   },
+
+  // submitExam : async (req, res) => {
+  //   const { userId, answers } = req.body;
+  //   try {
+  //     const exam = await Exam.findOne().populate('questions');
+  //     let score = 0;
+  //     exam.questions.forEach((question, index) => {
+  //       if (question.options[answers[index]].isCorrect) {
+  //         score++;
+  //       }
+  //     });
+  
+  //     exam.logs.push({ userId, score, submittedAt: new Date() });
+  //     await exam.save();
+  
+  //     res.json({ score });
+  //   } catch (err) {
+  //     res.status(500).json({ msg: 'Server error' });
+  //   }
+  // },
 }
