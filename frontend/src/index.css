@@ -11,3 +11,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* src/Register.css */
+
+.register-container {
+  margin-top: 50px;
+}
+
+.form-control {
+  margin-bottom: 5px;
+}
+
+@media (max-width: 576px) {
+  .form-row {
+    flex-direction: column;
+  }
+}

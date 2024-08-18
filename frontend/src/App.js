@@ -1,11 +1,13 @@
 import React, { Suspense } from 'react'
-import { HashRouter as Router, Route, Routes } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom' // Sử dụng BrowserRouter thay vì HashRouter
 import { CSpinner } from '@coreui/react'
 import './scss/style.scss'
 
 // Lazy load the components
 const ExamPage = React.lazy(() => import('./views/pages/ExamPage'))
 const Login = React.lazy(() => import('./views/pages/Login'))
+const Logout = React.lazy(() => import('./views/pages/Logout'))
+const Register = React.lazy(() => import('./views/pages/Register'))
 const LandingPage = React.lazy(() => import('./views/pages/LandingPage'))
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
 
@@ -20,13 +22,13 @@ function App() {
         }
       >
         <Routes>
-          <Route path="/exam" name="Login Page" element={<ExamPage />} />
-          {/* http://localhost:3000/#/login */}
+          <Route path="/exam" name="Exam Page" element={<ExamPage />} />
           <Route exact path="/login" element={<Login />} />
-          <Route path="/" element={<LandingPage />} />
+          <Route exact path="/register" element={<Register/>} />
+          <Route exact path="/logout" element={<Logout/>} />
           <Route path="/welcome" element={<LandingPage />} />
-
-          <Route path="*" name="Home" element={<DefaultLayout />} />
+          <Route path="/admin/*" name="Home" element={<DefaultLayout />} />
+          <Route path="*" element={<LandingPage />} />
         </Routes>
       </Suspense>
     </Router>
@@ -34,3 +36,4 @@ function App() {
 }
 
 export default App
+

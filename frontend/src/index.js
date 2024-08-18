@@ -5,6 +5,7 @@ import 'core-js'
 import '@coreui/coreui/dist/css/coreui.min.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
+import './index.css'
 
 
 import App from './App'

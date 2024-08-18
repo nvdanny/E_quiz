@@ -9,17 +9,16 @@ const ListQuestion = React.lazy(() => import('./views/admin/ListQuestion'))
 // const ViewResults = React.lazy(() => import('./views/admin/results/ViewResults'))
 
 const routes = [
-  { path: '/', exact: true, name: 'Home' },
-  { path: '/admin', name: 'Dashboard', element: Dashboard },
-  { path: '/admin/dashboard', name: 'Dashboard', element: Dashboard },
-  { path: '/admin/exam', name: 'Thêm đề thi', element: AddExam },
-  { path: '/admin/exam/view', name: 'Xem đề thi', element: ViewExam },
+  { path: '/login', exact: true, name: 'Login', element : Dashboard},
+  { path: '/dashboard', name: 'Dashboard', element: Dashboard },
+  { path: '/exam', name: 'Thêm đề thi', element: AddExam },
+  { path: '/exam/view', name: 'Xem đề thi', element: ViewExam },
   {
-    path: '/admin/add-question',
+    path: '/add-question',
     name: 'Thêm câu hỏi',
     element: AddQuestion
   },
-  { path: '/admin/list-question', name: 'Ngân hàng câu hỏi', element: ListQuestion },
+  { path: '/list-question', name: 'Ngân hàng câu hỏi', element: ListQuestion },
 //   { path: '/admin/view-users', name: 'Danh sách người dùng', element: ViewUsers },
 //   { path: '/admin/view-results', name: 'Kết quả thi', element: ViewResults },
 ]
