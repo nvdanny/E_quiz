@@ -31,7 +31,16 @@ module.exports = {
   },
 
   deleteExam: async (req, res) => {
-
+    try {
+      const data = req.body;
+      const response = await examService.deleteExam(data);
+      if (response.error) {
+        res.status(400).json({msg: response.error})
+      }
+      res.status(200).json({ msg: response })
+    } catch (err) {
+      res.status(500).json({ msg: 'Server error' });
+    }
   },
 
   getExam : async (req, res) => {

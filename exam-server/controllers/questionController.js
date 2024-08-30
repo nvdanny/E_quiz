@@ -1,22 +1,74 @@
-const Question = require('../models/Question');
+const questionService = require('../services/questionService');
 
 module.exports = {
-  addQuestion: async (req, res) => {
-    const { text, options } = req.body;
+  createQuestion : async (req, res) => {
     try {
-      const newQuestion = new Question({ text, options });
-      await newQuestion.save();
-      res.status(201).json(newQuestion);
+      const data = req.body;
+      const file = req.file;
+      const response = await questionService.createQuestion(data, file);
+      if (response.error) {
+        res.status(400).json({ msg: 'Unable to create question' });
+      }
+      res.status(200).json({ msg: response });
+    }
+    catch(err) {
+      res.status(500).json({ msg: "Server Error" });
+    }
+  },
+
+  editQuestion: async (req, res) => {
+    try {
+      const data = req.body;
+      const file = req.file;
+      const response = await questionService.editQuestion(data, file);
+      if (response.error) {
+        res.status(400).json({ msg: 'Unable to edit question' });
+      }
+      res.status(200).json({ msg: response })
+    }
+    catch(err) {
+      res.status(500).json({ msg: "Server Error" });
+    }
+  },
+
+  deleteQuestion: async (req, res) => {
+    try {
+      const data = req.body;
+      const response = await questionService.deleteQuestion(data);
+      if (response.error) {
+        res.status(400).json({msg: response.error})
+      }
+      res.status(200).json({ msg: response })
     } catch (err) {
       res.status(500).json({ msg: 'Server error' });
     }
   },
-  getQuestions : async (req, res) => {
+
+  getQuestion : async (req, res) => {
     try {
-      const questions = await Question.find();
-      res.json(questions);
+      const data = req.body;
+      const response = await questionService.getOneQuestion(data);
+      if (response.error) {
+        res.status(400).json({ msg: 'Error' });
+      }
+      res.status(200).json({ msg: response })
     } catch (err) {
       res.status(500).json({ msg: 'Server error' });
     }
   },
+  
+  getAllQuestion: async (req, res) => {
+    try {
+      const data = req.body;
+      const exams = await questionService.getAllQuestion(data);
+      if (response.error) {
+        res.status(400).json({ msg: 'Error' });
+      }
+      res.status(200).json({ msg: response });
+    }
+    catch (err) {
+      res.status(500).json({ msg: 'Server error' });
+    }
+  },
+
 }

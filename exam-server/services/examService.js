@@ -34,9 +34,15 @@ module.exports = {
                 end: data.end,
                 questions: data.questions,
             })
+            if (!newExam) {
+                return {
+                    error: "Exam not found"
+                }
+            }
             return {
                 success: true,
-                msg: "Edit exam successfully"
+                msg: "Edit exam successfully",
+                newExam
             }
         }
         catch(err) {
@@ -61,7 +67,7 @@ module.exports = {
         }
     },
 
-    getAllExam: async (data) => {
+    getAllExam: async () => {
         try {
             const exams = await Exam.find().populate({path: 'questions'});
             return {
@@ -72,6 +78,24 @@ module.exports = {
         catch(err) {
             return {
                 error: err,
+            }
+        }
+    },
+    deleteExam: async (data) => {
+        try {
+            const deletedExam = await Question.findByIdAndDelete(data.id);
+            if (!deletedExam) {
+                return {
+                    error: 'Exam not found'
+                }
+            }
+            return {
+                msg: 'Exam deleted successfully'
+            }
+        }
+        catch(err) {
+            return {
+                error: err
             }
         }
     }
