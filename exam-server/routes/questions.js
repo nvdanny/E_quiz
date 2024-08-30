@@ -1,7 +1,8 @@
 const express = require("express")
 const router = express.Router();
 const questionController = require("../controllers/questionController");
-const { auth } = require("../middlewares/auth");
+const { auth, admin } = require("../middlewares/auth");
+const uploadCloud = require("../middlewares/uploader");
 
 router.post("/create", [auth, admin, uploadCloud.single("img")], questionController.createQuestion);
 router.get("/list", [auth, admin], questionController.getAllQuestion);

@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router();
 const examController = require("../controllers/examController");
-const { auth } = require("../middlewares/auth");
+const { auth, admin } = require("../middlewares/auth");
 
 router.post("/create", [auth, admin], examController.createExam);
 router.get("/list", [auth, admin], examController.getAllExam);
