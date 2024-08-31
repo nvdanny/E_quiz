@@ -6,6 +6,7 @@ module.exports = {
       const data = req.body;
       const file = req.file;
       const response = await questionService.createQuestion(data, file);
+      console.log(response)
       if (response.error) {
         res.status(400).json({ msg: 'Unable to create question' });
       }
@@ -60,7 +61,7 @@ module.exports = {
   getAllQuestion: async (req, res) => {
     try {
       const data = req.body;
-      const exams = await questionService.getAllQuestion(data);
+      const response = await questionService.getAllQuestion(data);
       if (response.error) {
         res.status(400).json({ msg: 'Error' });
       }

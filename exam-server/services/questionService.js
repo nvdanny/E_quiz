@@ -3,10 +3,11 @@ const Question = require('../models/Question');
 
 module.exports = {
     createQuestion: async (data, file) => {
-        const savedOptions = data.options.map(option => ({ _id: new mongoose.Types.ObjectId(), ...option }));
-        const savedAnswer = savedOptions[data.answer];
-        const {path, filename} = file;
         try {
+            const savedOptions = data.options.map(option => ({ _id: new mongoose.Types.ObjectId(), ...option }));
+            const savedAnswer = savedOptions[data.answer];
+            // const {path, filename} = file;
+            const path = "/0"
             const newQuestion = await Question.create({
                 description: data.description,
                 imageUrl: path,
@@ -66,7 +67,8 @@ module.exports = {
 
     editQuestion: async (data, file) => {
         try {
-            const {path, filename} = file;
+            // const {path, filename} = file;
+            const path = "/0"
             const savedOptions = data.options.map(option => ({ _id: new mongoose.Types.ObjectId(), ...option }));
             const savedAnswer = savedOptions[data.answer];
             const question = await Question.findByIdAndUpdate(data.id, {
