@@ -10,7 +10,9 @@ module.exports = {
       if (response.error) {
         res.status(400).json({ msg: 'Unable to create question' });
       }
-      res.status(200).json({ msg: response });
+      else {
+        res.status(200).json({ msg: response });
+      }
     }
     catch(err) {
       res.status(500).json({ msg: "Server Error" });
@@ -25,7 +27,9 @@ module.exports = {
       if (response.error) {
         res.status(400).json({ msg: 'Unable to edit question' });
       }
-      res.status(200).json({ msg: response })
+      else {
+        res.status(200).json({ msg: response })
+      }
     }
     catch(err) {
       res.status(500).json({ msg: "Server Error" });
@@ -39,7 +43,9 @@ module.exports = {
       if (response.error) {
         res.status(400).json({msg: response.error})
       }
-      res.status(200).json({ msg: response })
+      else {
+        res.status(200).json({ msg: response })
+      }
     } catch (err) {
       res.status(500).json({ msg: 'Server error' });
     }
@@ -52,7 +58,9 @@ module.exports = {
       if (response.error) {
         res.status(400).json({ msg: 'Error' });
       }
-      res.status(200).json({ msg: response })
+      else {
+        res.status(200).json({ msg: response })
+      }
     } catch (err) {
       res.status(500).json({ msg: 'Server error' });
     }
@@ -65,7 +73,9 @@ module.exports = {
       if (response.error) {
         res.status(400).json({ msg: 'Error' });
       }
-      res.status(200).json({ msg: response });
+      else {
+        res.status(200).json({ msg: response });
+      }
     }
     catch (err) {
       res.status(500).json({ msg: 'Server error' });
