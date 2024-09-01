@@ -17,8 +17,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const authRoutes = require('./routes/auth');
-// const questionRoutes = require('./routes/questions');
-// const examRoutes = require('./routes/exams');
+const questionRoutes = require('./routes/questions');
+const examRoutes = require('./routes/exams');
 
 
 mongoose.connect(config.mongoURI);
@@ -28,8 +28,8 @@ connection.once('open', () => {
 }) 
 
 app.use("/api/auth", authRoutes);
-// app.use('/api/questions', questionRoutes);
-// app.use('/api/exams', examRoutes);
+app.use('/api/question', questionRoutes);
+app.use('/api/exam', examRoutes);
 
 const options = {
   definition: {

@@ -13,7 +13,15 @@ const userSchema = new Schema({
   studentId: {type: String, required: false},
   linkFb: {type: String, required: true},
   role: { type: String, enum: ['user', 'admin'], default: 'user' },
-  submission: { type: Schema.ObjectId, ref: "Submission" }
+  submission: { type: Schema.ObjectId, ref: "Submission" },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  updatedAt: {
+      type: Date,
+      default: Date.now
+  },
 });
 
 module.exports = mongoose.model('User', userSchema);
