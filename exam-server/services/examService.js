@@ -12,10 +12,11 @@ module.exports = {
                 questions: data.questions,
             });
             newExam = await Exam.create(newExam);
+            const foundExam =  await Exam.findById(newExam._id).populate({path: 'questions'});
             return {
                 success: true,
                 msg: "New Exam Created Successfully",
-                newExam
+                foundExam
             }
           } catch (err) {
             return {
@@ -83,7 +84,7 @@ module.exports = {
     },
     deleteExam: async (data) => {
         try {
-            const deletedExam = await Question.findByIdAndDelete(data.id);
+            const deletedExam = await Exam.findByIdAndDelete(data.id);
             if (!deletedExam) {
                 return {
                     error: 'Exam not found'
