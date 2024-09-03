@@ -18,7 +18,7 @@ const routes = [
     name: 'Thêm câu hỏi',
     element: AddQuestion
   },
-  { path: '/list-question', name: 'Ngân hàng câu hỏi', element: ListQuestion },
+  { path: '/list-question', name: 'Ngân hàng câu hỏi', element: ListQuestion ,},
 //   { path: '/admin/view-users', name: 'Danh sách người dùng', element: ViewUsers },
 //   { path: '/admin/view-results', name: 'Kết quả thi', element: ViewResults },
 ]

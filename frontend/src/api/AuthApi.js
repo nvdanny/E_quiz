@@ -1,5 +1,5 @@
 
-import {apiClient} from './ApiClient';
+import apiClient from './ApiClient';
 
 
 export const signUp = (username, email, password, displayName, phoneNumber, birthday, university, major, year, studentId, linkFb) => {

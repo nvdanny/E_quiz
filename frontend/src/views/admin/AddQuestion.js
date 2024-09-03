@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import axios from 'axios';
 import {
   CButton,
@@ -10,8 +10,10 @@ import {
   CFormCheck,
   CRow,
   CCol,
-  CFormTextarea
+  CFormTextarea,
+  CAlert
 } from '@coreui/react';
+import { createQuestion } from '../../api/QuestionApi'; // Import your API function
 
 const CLOUDINARY_URL = process.env.REACT_APP_CLOUDINARY_URL;
 const CLOUDINARY_UPLOAD_PRESET = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
@@ -25,6 +27,19 @@ const AddQuestion = () => {
     { text: '', isCorrect: false },
   ]);
   const [image, setImage] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [showAlert, setShowAlert] = useState(false); 
+  const [alertMessage, setAlertMessage] = useState('');
+
+  useEffect(() => {
+    if (showAlert) {
+      const timer = setTimeout(() => {
+        setShowAlert(false);
+      }, 5000);
+
+      return () => clearTimeout(timer); 
+    }
+  }, [showAlert]);
 
   const handleAddOption = () => {
     setOptions([...options, { text: '', isCorrect: false }]);
@@ -35,6 +50,21 @@ const AddQuestion = () => {
       idx === index ? { ...option, [event.target.name]: event.target.name === 'isCorrect' ? event.target.checked : event.target.value } : option
     );
     setOptions(newOptions);
+  };
+  const validateForm = () => {
+    if (!text.trim()) {
+      setAlertMessage('Đề bài không được để trống.');
+      return false;
+    }
+    if (options.some(option => !option.text.trim())) {
+      setAlertMessage('Tất cả các lựa chọn phải có nội dung.');
+      return false;
+    }
+    if (!options.some(option => option.isCorrect)) {
+      setAlertMessage('Phải chọn ít nhất một đáp án đúng.');
+      return false;
+    }
+    return true;
   };
 
   const handleDeleteOption = (index) => {
@@ -59,23 +89,39 @@ const AddQuestion = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) {
+      setShowAlert(true);
+      return;
+    }
     try {
-      // Prepare form data
-      const formData = new FormData();
-      formData.append('text', text);
-      formData.append('options', JSON.stringify(options));
-      if (image) {
-        formData.append('image', image);
-      }
+      const formattedOptions = options.map(option => ({
+        text: option.text,
+        isCorrect: option.isCorrect
+      }));
+      const correctOptionIndex = options.findIndex(option => option.isCorrect);
+      
+      const data = {
+        description: text,
+        imageUrl: image,
+        options: formattedOptions,
+        answer: correctOptionIndex
+      };
 
-      // Send the request
-      // const response = await axios.post('/api/questions/add', formData, {
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data'
-      //   }
-      // });
-      // console.log(response.data);
-      console.log({ text, options, image });
+      const response = await createQuestion(data, image, token);
+
+      if (response.status === 200) {
+        setAlertMessage('Thêm câu hỏi mới thành công!');
+        setShowAlert(true);
+      } else if(response.status === 200){
+        setAlertMessage('Đầu vào không hợp lệ');
+        setShowAlert(true);
+      }
+      else {
+        setAlertMessage('Failed to add the question.');
+        setShowAlert(true);
+      }
+  
+      console.log(response.data);
 
       // Reset form
       setText('');
@@ -98,6 +144,11 @@ const AddQuestion = () => {
       </CCardHeader>
       <CCardBody>
         <CForm onSubmit={handleSubmit}>
+          {showAlert && (
+            <CAlert color={alertMessage.startsWith('Failed') || alertMessage.startsWith('An error') ? 'danger' : 'success'}>
+              {alertMessage}
+            </CAlert>
+          )}
           <CRow className="mb-3">
             <CCol sm="2">
               <label htmlFor="question-text">Đề bài:</label>

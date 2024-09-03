@@ -55,7 +55,7 @@ module.exports = {
           }
         }
         const payload = { id: user._id, role: user.role };
-        const accessToken = jwt.sign(payload, config.secretOrKey, { expiresIn: '1h' });
+        const accessToken = jwt.sign(payload, config.secretOrKey, { expiresIn: '24h' });
         const userObj = user.toObject();
         delete userObj.password;
         return {
