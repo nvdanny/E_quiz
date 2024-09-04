@@ -27,9 +27,9 @@ module.exports = {
         }
     },
 
-    getOneQuestion: async (data) => {
+    getOneQuestion: async (id) => {
         try {
-            const question = await Question.findById(data.id).populate({path: 'options'})
+            const question = await Question.findById(id).populate({path: 'options'})
             if (!question) {
                 return {
                     error: "question not found"
@@ -96,9 +96,9 @@ module.exports = {
             }
         }
     },
-    deleteQuestion: async (data) => {
+    deleteQuestion: async (id) => {
         try {
-            const deletedQuestion = await Question.findByIdAndDelete(data.id);
+            const deletedQuestion = await Question.findByIdAndDelete(id);
             if (!deletedQuestion) {
                 return {
                     error: 'Question not found'

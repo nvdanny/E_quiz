@@ -36,8 +36,7 @@ module.exports = {
 
   deleteExam: async (req, res) => {
     try {
-      const data = req.body;
-      const response = await examService.deleteExam(data);
+      const response = await examService.deleteExam(req.params.examId);
       if (response.error) {
         res.status(400).json({msg: response.error})
       }
@@ -51,8 +50,7 @@ module.exports = {
 
   getExam : async (req, res) => {
     try {
-      const data = req.body;
-      const response = await examService.getExam(data);
+      const response = await examService.getExam(req.params.examId);
       if (response.error) {
         res.status(400).json({ msg: 'Error' });
       }

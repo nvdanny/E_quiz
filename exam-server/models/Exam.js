@@ -13,11 +13,11 @@ const examSchema = new Schema({
   },
   start: {
     type: Date,
-    required: true
+    required: false
   },
   end: {
     type: Date,
-    required: true
+    required: false
   },
   questions : [{
     type: mongoose.Schema.Types.ObjectId,
