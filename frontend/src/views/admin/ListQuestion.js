@@ -44,7 +44,7 @@ const QuestionsList = ({ token }) => {
   };
 
   const handleQuestionClick = (question) => {
-    navigate('/editExam', { state: { question } }); // Updated navigation
+    navigate('/admin/add-question/'+question._id, { state: { question } }); 
   };
 
   const handlePageChange = (newPage) => {

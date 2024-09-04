@@ -11,7 +11,7 @@ export const createQuestion = (data, file, token) => {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
     };
-    return apiClient.post(`/api/question/create`, payload, { headers });
+    return apiClient.post(`/api/question/`, payload, { headers });
 };
 
 
@@ -19,7 +19,7 @@ export const deleteQuestion = (questionId, token) => {
     const headers = {
         Authorization: `Bearer ${token}`,
     };
-    return apiClient.delete(`/api/question/delete/${questionId}`, { headers });
+    return apiClient.delete(`/api/question/${questionId}`, { headers });
 };
 
 export const listQuestion = (token) => {
@@ -31,6 +31,7 @@ export const listQuestion = (token) => {
 
 export const updateQuestion = async (data, questionId, token) => {
     const payload = {
+        id : questionId,
         description: data.description,
         imageUrl: data.imageUrl, // or `file.path` if you're handling file uploads separately
         options: data.options,
@@ -40,7 +41,7 @@ export const updateQuestion = async (data, questionId, token) => {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
     };
-    return apiClient.put(`/api/question/update/${questionId}`, payload, { headers });
+    return apiClient.put(`/api/question/${questionId}`, payload, { headers });
 };
 
 

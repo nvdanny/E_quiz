@@ -12,9 +12,15 @@ const routes = [
   { path: '/login', exact: true, name: 'Login', element : Dashboard},
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/exam', name: 'Thêm đề thi', element: AddExam },
+  { path: '/exam/:examId', name: 'Sửa đề thi', element: AddExam },
   { path: '/exam/view', name: 'Xem đề thi', element: ViewExam },
   {
-    path: '/add-question',
+    path: '/add-question/:questionId',
+    name: 'Sửa câu hỏi',
+    element: AddQuestion
+  },
+  {
+    path: '/add-question/',
     name: 'Thêm câu hỏi',
     element: AddQuestion
   },
