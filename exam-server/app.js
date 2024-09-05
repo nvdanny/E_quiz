@@ -1,9 +1,9 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-require('dotenv').config();
-const bodyParser = require('body-parser');
-const config = require('./config');
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+require("dotenv").config();
+const bodyParser = require("body-parser");
+const config = require("./config");
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 const cookieParser = require("cookie-parser");
@@ -16,20 +16,19 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const authRoutes = require('./routes/auth');
-const questionRoutes = require('./routes/questions');
-const examRoutes = require('./routes/exams');
-
+const authRoutes = require("./routes/auth");
+const questionRoutes = require("./routes/questions");
+const examRoutes = require("./routes/exams");
 
 mongoose.connect(config.mongoURI);
 const connection = mongoose.connection;
-connection.once('open', () => {
-    console.log("Database connection established successfully");
-}) 
+connection.once("open", () => {
+  console.log("Database connection established successfully");
+});
 
 app.use("/api/auth", authRoutes);
-app.use('/api/question', questionRoutes);
-app.use('/api/exam', examRoutes);
+app.use("/api/question", questionRoutes);
+app.use("/api/exam", examRoutes);
 
 const options = {
   definition: {
@@ -41,16 +40,16 @@ const options = {
     servers: [
       {
         url: "",
-        descripton: "Live server"
+        descripton: "Live server",
       },
       {
-        url: "http://localhost:3000/api",
-        description: "Local server"
+        url: "https://api.blndt-sec-bav.com/",
+        description: "Local server",
       },
     ],
   },
   apis: ["./swagger/*.yaml"],
-}
+};
 
 const openapiSpecification = swaggerJsdoc(options);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openapiSpecification));
