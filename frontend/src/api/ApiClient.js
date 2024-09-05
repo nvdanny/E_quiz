@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "https://blndt-sec-bav.com:5000",
+  baseURL: "https://api.blndt-sec-bav.com/",
 });
 apiClient.interceptors.response.use(
   (response) => response,
