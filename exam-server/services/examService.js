@@ -39,10 +39,11 @@ module.exports = {
                     error: "Exam not found"
                 }
             }
+            const foundExam =  await Exam.findById(newExam._id).populate({path: 'questions'});
             return {
                 success: true,
-                msg: "Edit exam successfully",
-                newExam
+                msg: "Edit exam Successfully",
+                foundExam
             }
         }
         catch(err) {
@@ -96,6 +97,18 @@ module.exports = {
         catch(err) {
             return {
                 error: err
+            }
+        }
+    },
+
+    startExam : async (data) => {
+        try {
+            const exam = await Exam.findById(data.id);
+            
+        }
+        catch(err) {
+            return {
+                error: err,
             }
         }
     }
