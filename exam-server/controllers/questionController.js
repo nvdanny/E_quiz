@@ -6,9 +6,8 @@ module.exports = {
       const data = req.body;
       const file = req.file;
       const response = await questionService.createQuestion(data, file);
-      console.log(response)
       if (response.error) {
-        res.status(400).json({ msg: 'Unable to create question' });
+        res.status(400).json({ msg: 'Unable to create question'});
       }
       else {
         res.status(200).json({ msg: response });
@@ -38,8 +37,8 @@ module.exports = {
 
   deleteQuestion: async (req, res) => {
     try {
-      const data = req.body;
-      const response = await questionService.deleteQuestion(data);
+
+      const response = await questionService.deleteQuestion(req.params.questionId);
       if (response.error) {
         res.status(400).json({msg: response.error})
       }
@@ -53,8 +52,7 @@ module.exports = {
 
   getQuestion : async (req, res) => {
     try {
-      const data = req.body;
-      const response = await questionService.getOneQuestion(data);
+      const response = await questionService.getOneQuestion(req.params.questionId);
       if (response.error) {
         res.status(400).json({ msg: 'Error' });
       }

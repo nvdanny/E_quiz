@@ -12,13 +12,19 @@ const routes = [
   { path: '/login', exact: true, name: 'Login', element : Dashboard},
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/exam', name: 'Thêm đề thi', element: AddExam },
+  { path: '/exam/:examId', name: 'Sửa đề thi', element: AddExam },
   { path: '/exam/view', name: 'Xem đề thi', element: ViewExam },
   {
-    path: '/add-question',
+    path: '/add-question/:questionId',
+    name: 'Sửa câu hỏi',
+    element: AddQuestion
+  },
+  {
+    path: '/add-question/',
     name: 'Thêm câu hỏi',
     element: AddQuestion
   },
-  { path: '/list-question', name: 'Ngân hàng câu hỏi', element: ListQuestion },
+  { path: '/list-question', name: 'Ngân hàng câu hỏi', element: ListQuestion ,},
 //   { path: '/admin/view-users', name: 'Danh sách người dùng', element: ViewUsers },
 //   { path: '/admin/view-results', name: 'Kết quả thi', element: ViewResults },
 ]

@@ -1,5 +1,4 @@
 const Exam = require('../models/Exam');
-
 module.exports = {
     createExam : async (data) => {
         try {
@@ -9,7 +8,7 @@ module.exports = {
                 duration: data.duration,
                 start: data.start,
                 end: data.end,
-                questions: data.questions,
+                questions: data.questions 
             });
             newExam = await Exam.create(newExam);
             const foundExam =  await Exam.findById(newExam._id).populate({path: 'questions'});
@@ -54,9 +53,9 @@ module.exports = {
         }
     },
 
-    getExam: async (data) => {
+    getExam: async (id) => {
         try {
-            const foundExam =  await Exam.findById(data.id).populate({path: 'questions'});
+            const foundExam =  await Exam.findById(id).populate({path: 'questions'});
             return {
                 success: true,
                 foundExam
@@ -83,9 +82,9 @@ module.exports = {
             }
         }
     },
-    deleteExam: async (data) => {
+    deleteExam: async (id) => {
         try {
-            const deletedExam = await Exam.findByIdAndDelete(data.id);
+            const deletedExam = await Exam.findByIdAndDelete(id);
             if (!deletedExam) {
                 return {
                     error: 'Exam not found'

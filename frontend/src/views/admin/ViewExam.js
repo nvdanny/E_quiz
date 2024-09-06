@@ -17,29 +17,53 @@ import {
     CTableHead,
     CTableHeaderCell,
     CTableRow,
-    CModalTitle
 } from '@coreui/react';
-import React, { useState } from 'react';
 
-const examData = [
-  { id: 1, name: 'Đề thi số 1', timeLimit: '60 phút', questionCount: 2 },
-  { id: 2, name: 'Đề thi số 2', timeLimit: '45 phút', questionCount: 2 },
-];
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { deleteExam, listExams } from '../../api/ExamApi'; // Import các hàm từ ExamApi
 
 const ViewExam = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedExamId, setSelectedExamId] = useState(null);
-  const [visible, setVisible] = useState(false)
+  const [exams, setExams] = useState([]);
+  const navigate = useNavigate(); 
+
+  useEffect(() => {
+    // Fetch danh sách đề thi từ API khi component được render
+    const fetchExams = async () => {
+      const token = localStorage.getItem('accessToken'); // Giả sử token được lưu trong localStorage
+      const response = await listExams(token);
+      if (response.status==200) {
+        setExams(response.data.msg.exams);
+      } else {
+        console.error(response.error);
+      }
+    };
+
+    fetchExams();
+  }, []);
 
   const handleDeleteExam = (id) => {
+
     setSelectedExamId(id);
     setShowDeleteModal(true);
   };
 
-  const confirmDeleteExam = () => {
-    console.log('Deleting exam with id:', selectedExamId);
-    // Perform delete operation here
-    setShowDeleteModal(false);
+  const confirmDeleteExam = async () => {
+    const token = localStorage.getItem('accessToken');
+    const response = await deleteExam(selectedExamId, token);
+    if (response.status == 200) {
+      setExams(exams.filter(exam => exam._id !== selectedExamId));
+      setShowDeleteModal(false);
+    } else {
+      console.error(response.error);
+      setShowDeleteModal(false);
+    }
+  };
+
+  const handleEditExam = (id) => {
+    navigate(`/admin/exam/${id}`);
   };
 
   return (
@@ -53,28 +77,28 @@ const ViewExam = () => {
             <CTable striped hover responsive>
               <CTableHead>
                 <CTableRow>
-                  <CTableHeaderCell scope="col" className="text-center">ID</CTableHeaderCell>
+                  <CTableHeaderCell scope="col" className="text-center">STT</CTableHeaderCell>
                   <CTableHeaderCell scope="col" className="text-center">Tên đề thi</CTableHeaderCell>
-                  <CTableHeaderCell scope="col" className="text-center">Thời gian thi</CTableHeaderCell>
+                  <CTableHeaderCell scope="col" className="text-center">Thời gian thi (phút)</CTableHeaderCell>
                   <CTableHeaderCell scope="col" className="text-center">Số lượng câu hỏi</CTableHeaderCell>
                   <CTableHeaderCell scope="col" className="text-center">Actions</CTableHeaderCell>
                 </CTableRow>
               </CTableHead>
               <CTableBody>
-                {examData.map((exam) => (
+                {exams.map((exam,index) => (
                   <CTableRow key={exam.id}>
-                    <CTableDataCell className="text-center">{exam.id}</CTableDataCell>
-                    <CTableDataCell className="text-center">{exam.name}</CTableDataCell>
-                    <CTableDataCell className="text-center">{exam.timeLimit}</CTableDataCell>
-                    <CTableDataCell className="text-center">{exam.questionCount}</CTableDataCell>
+                    <CTableDataCell className="text-center">{index+1}</CTableDataCell>
+                    <CTableDataCell className="text-center">{exam.title}</CTableDataCell>
+                    <CTableDataCell className="text-center">{exam.duration}</CTableDataCell>
+                    <CTableDataCell className="text-center">{exam.questions.length}</CTableDataCell>
                     <CTableDataCell className="text-center">
                       <CButton size="sm" color="info" className="me-2">
                         <CIcon icon={cilSearch} />
                       </CButton>
-                      <CButton size="sm" color="warning" className="me-2">
+                      <CButton size="sm" color="warning" className="me-2" onClick={() => handleEditExam(exam._id)}>
                         <CIcon icon={cilPencil} />
                       </CButton>
-                      <CButton size="sm" color="danger" onClick={() => handleDeleteExam(exam.id)}>
+                      <CButton size="sm" color="danger" onClick={() => handleDeleteExam(exam._id)}>
                         <CIcon icon={cilTrash} />
                       </CButton>
                     </CTableDataCell>

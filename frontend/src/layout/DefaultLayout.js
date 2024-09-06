@@ -1,16 +1,27 @@
-import React from 'react'
-import AppSidebar from '../components/AppSidebar'
-import AppContent from '../components/AppContent'
-import AppHeader from '../components/AppHeader'
-import { useNavigate } from 'react-router-dom'
-import UnAuthorized from '../views/pages/UnAuthorized'
+import React, { useEffect } from 'react';
+import AppSidebar from '../components/AppSidebar';
+import AppContent from '../components/AppContent';
+import AppHeader from '../components/AppHeader';
+import { useNavigate } from 'react-router-dom';
+import UnAuthorized from '../views/pages/UnAuthorized';
+
 const DefaultLayout = () => {
   const navigate = useNavigate();
-  const userInfo =  localStorage.getItem('userInfo')
-  if(userInfo==null){
-    navigate('/login');
+  const userInfo = localStorage.getItem('userInfo');
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate('/login');
+    }
+  }, [userInfo, navigate]);
+
+  if (!userInfo) {
+    return null; 
   }
-  if(JSON.parse(userInfo)['role']=='admin'){
+
+  const userRole = JSON.parse(userInfo).role;
+
+  if (userRole === 'admin') {
     return (
       <div>
         <AppSidebar />
@@ -21,13 +32,10 @@ const DefaultLayout = () => {
           </div>
         </div>
       </div>
-    )
+    );
+  } else {
+    return <UnAuthorized />;
   }
-  else{
-    return(
-      <UnAuthorized/>
-    )
-  }
-}
+};
 
-export default DefaultLayout
+export default DefaultLayout;
