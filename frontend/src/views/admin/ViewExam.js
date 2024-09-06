@@ -130,11 +130,6 @@ const ViewExam = () => {
                       <CButton size="sm" color="danger" className="me-2" onClick={() => handleDeleteExam(exam._id)}>
                         <CIcon icon={cilTrash} />
                       </CButton>
-                      <CButton size="sm"
-                        color={exam.active ? 'success' : 'secondary'}
-                        onClick={() => toggleExamActive(exam._id, exam.active)}>
-                        Active
-                      </CButton>
                     </CTableDataCell>
                   </CTableRow>
                 ))}

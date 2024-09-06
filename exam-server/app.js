@@ -19,7 +19,8 @@ app.use(
   cors({
     origin: [
       "https://exam-server-p8gl2dfz2-nguyendaniel1307s-projects.vercel.app/",
-      "http://localhost:5000",
+      "http://localhost:3000",
+      "https://blndt-sec-bav.com"
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
