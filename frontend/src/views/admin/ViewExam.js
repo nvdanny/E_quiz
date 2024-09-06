@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-<<<<<<< HEAD
 import { deleteExam, listExams, updateStatus } from '../../api/ExamApi';
 import {
   CButton,
@@ -22,9 +21,6 @@ import {
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilPencil, cilSearch, cilTrash, cilCheckCircle, cilXCircle } from '@coreui/icons';
-=======
-import { deleteExam, editExam, listExams } from '../../api/ExamApi'; // Import các hàm từ ExamApi
->>>>>>> origin/main
 
 const ViewExam = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
