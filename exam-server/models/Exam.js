@@ -32,6 +32,10 @@ const examSchema = new Schema({
     type: Date,
     default: Date.now
   },
+  active :{
+    type: Boolean,
+    default:false
+  }
 });
 
 module.exports = mongoose.model('Exam', examSchema);

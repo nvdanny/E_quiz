@@ -111,6 +111,31 @@ module.exports = {
                 error: err,
             }
         }
-    }
+    },
+    updateStatus: async (data) => {
+        try {
+            const exam = await Exam.findById(data.id)
+            if (!exam) {
+                return {
+                    error: "Exam not found"
+                }
+            }
+            exam.set({
+                active: data.active
+            });
+            await exam.save();
+            return {
+                success: true,
+                msg: "Update status Successfully",
+                exam
+            }
+        }
+        catch(err) {
+            return {
+                error: err,
+            }
+        }
+    },
+
     
 }

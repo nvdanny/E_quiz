@@ -53,3 +53,16 @@ export const deleteExam = async (examId, token) => {
     };
     return apiClient.delete(`/api/exam/${examId}`, { headers });
 };
+
+
+export const updateStatus = async (examId, newStatus, token) => {
+    const payload = {
+        id: examId,
+        active: newStatus,
+    };
+    const headers = {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+    };
+    return apiClient.post(`/api/exam/updateStatus`, payload, { headers });
+};

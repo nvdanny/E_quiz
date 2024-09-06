@@ -77,6 +77,21 @@ module.exports = {
       res.status(500).json({ msg: 'Server error' });
     }
   },
+  updateStatus: async (req, res) => {
+    try {
+      const data = req.body;
+      const response = await examService.updateStatus(data);
+      if (response.error) {
+        res.status(400).json({ msg: 'Unable to update status exam' });
+      }
+      else {
+        res.status(200).json({ msg: response })
+      }
+    }
+    catch(err) {
+      res.status(500).json({ msg: "Server Error" });
+    }
+  },
 
   // submitExam : async (req, res) => {
   //   const { userId, answers } = req.body;
