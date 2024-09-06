@@ -53,3 +53,7 @@ export const deleteExam = async (examId, token) => {
     };
     return apiClient.delete(`/api/exam/${examId}`, { headers });
 };
+
+export const updateExamStatus = async (id, active, token) => {
+
+}
