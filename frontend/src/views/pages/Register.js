@@ -28,7 +28,6 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Validate and send data to API
     console.log('Form data:', formData);
   };
 

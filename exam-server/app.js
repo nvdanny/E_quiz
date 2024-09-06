@@ -15,14 +15,6 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.use(
-//   cors({
-//     origin: ["https://api.blndt-sec-bav.com", "http://localhost:5000"],
-//     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-//     credentials: true,
-//   })
-// );
-
 app.use(
   cors({
     origin: ["https://e-quiz-backend.vercel.app", "http://localhost:5000"],
@@ -57,10 +49,9 @@ const options = {
         url: "https://api.blndt-sec-bav.com/",
         description: "Live server",
       },
-      // {
-      //   url: "http://localhost:5000",
-      //   description: "Local server",
-      // },
+      {
+        url: "http://localhost:5000",
+        description: "Local server",
     ],
   },
   apis: ["./swagger/*.yaml"],
