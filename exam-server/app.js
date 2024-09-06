@@ -31,29 +31,29 @@ app.use("/api/auth", authRoutes);
 app.use('/api/question', questionRoutes);
 app.use('/api/exam', examRoutes);
 
-const options = {
-  definition: {
-    openapi: "3.0.0",
-    info: {
-      title: "E_quiz",
-      version: "1.0.11",
-    },
-    servers: [
-      {
-        url: "",
-        descripton: "Live server"
-      },
-      {
-        url: "http://localhost:3000/api",
-        description: "Local server"
-      },
-    ],
-  },
-  apis: ["./swagger/*.yaml"],
-}
+// const options = {
+//   definition: {
+//     openapi: "3.0.0",
+//     info: {
+//       title: "E_quiz",
+//       version: "1.0.11",
+//     },
+//     servers: [
+//       {
+//         url: "",
+//         descripton: "Live server"
+//       },
+//       {
+//         url: "http://localhost:3000/api",
+//         description: "Local server"
+//       },
+//     ],
+//   },
+//   apis: ["./swagger/*.yaml"],
+// }
 
-const openapiSpecification = swaggerJsdoc(options);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openapiSpecification));
+// const openapiSpecification = swaggerJsdoc(options);
+// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
