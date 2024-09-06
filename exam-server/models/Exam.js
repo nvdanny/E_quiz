@@ -11,14 +11,14 @@ const examSchema = new Schema({
     type: Number,
     required: true 
   },
-  start: {
-    type: Date,
-    required: false
-  },
-  end: {
-    type: Date,
-    required: false
-  },
+  // start: {
+  //   type: Date,
+  //   required: true
+  // },
+  // end: {
+  //   type: Date,
+  //   required: true
+  // },
   questions : [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Question',

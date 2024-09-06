@@ -17,14 +17,20 @@ const submissionSchema = new Schema({
         required : true
     },
     result: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'subResultsModel',
+        type: Number,
         required : true
-    }
-    ],
+    }],
     score :{
         type : Number,
         default : 0
+    },
+    active: {
+        type: Number,
+        default : 0
+    },
+    alreadyStart: {
+        type: Number,
+        default: 0
     }
 });
 
