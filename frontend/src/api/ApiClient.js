@@ -17,7 +17,7 @@ apiClient.interceptors.response.use(
 const handleLogout = () => {
   localStorage.removeItem("accessToken");
   localStorage.removeItem("userInfo");
-  localStorage.removeItem("timeLeft");
+  localStorage.removeItem("timeLeft");  
   window.location.href = "/login";
 };
 
