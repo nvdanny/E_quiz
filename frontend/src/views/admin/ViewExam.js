@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+<<<<<<< HEAD
 import { deleteExam, listExams, updateStatus } from '../../api/ExamApi';
 import {
   CButton,
@@ -21,6 +22,9 @@ import {
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilPencil, cilSearch, cilTrash, cilCheckCircle, cilXCircle } from '@coreui/icons';
+=======
+import { deleteExam, editExam, listExams } from '../../api/ExamApi'; // Import các hàm từ ExamApi
+>>>>>>> origin/main
 
 const ViewExam = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -127,8 +131,13 @@ const ViewExam = () => {
                       <CButton size="sm" color="warning" className="me-2" onClick={() => handleEditExam(exam._id)}>
                         <CIcon icon={cilPencil} />
                       </CButton>
-                      <CButton size="sm" color="danger" onClick={() => handleDeleteExam(exam._id)}>
+                      <CButton size="sm" color="danger" className="me-2" onClick={() => handleDeleteExam(exam._id)}>
                         <CIcon icon={cilTrash} />
+                      </CButton>
+                      <CButton size="sm"
+                        color={exam.active ? 'success' : 'secondary'}
+                        onClick={() => toggleExamActive(exam._id, exam.active)}>
+                        Active
                       </CButton>
                     </CTableDataCell>
                   </CTableRow>

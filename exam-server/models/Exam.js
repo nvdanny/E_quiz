@@ -19,6 +19,11 @@ const examSchema = new Schema({
   //   type: Date,
   //   required: true
   // },
+  active: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
   questions : [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Question',

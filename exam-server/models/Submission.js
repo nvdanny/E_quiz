@@ -24,10 +24,6 @@ const submissionSchema = new Schema({
         type : Number,
         default : 0
     },
-    active: {
-        type: Number,
-        default : 0
-    },
     alreadyStart: {
         type: Number,
         default: 0

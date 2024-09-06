@@ -17,12 +17,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
   cors({
-    origin: ["https://blndt-sec-bav.com", "http://localhost:3000"],
-    methods: ["GET", "POST", "PUT", "DELETE","OPTIONS"],
+    origin: [
+      "https://exam-server-p8gl2dfz2-nguyendaniel1307s-projects.vercel.app/",
+      "http://localhost:5000",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
   })
 );
-
 
 const authRoutes = require("./routes/auth");
 const questionRoutes = require("./routes/questions");
