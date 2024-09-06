@@ -21,7 +21,7 @@ import {
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { deleteExam, listExams, updateExamStatus } from '../../api/ExamApi'; // Import các hàm từ ExamApi
+import { deleteExam, editExam, listExams } from '../../api/ExamApi'; // Import các hàm từ ExamApi
 
 const ViewExam = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -69,7 +69,7 @@ const ViewExam = () => {
   const toggleExamActive = async (id, isActive) => {
     const token = localStorage.getItem('accessToken');
     const newStatus = !isActive;
-    const response = await updateExamStatus(id, { active: newStatus }, token);
+    const response = await editExam(id, { active: newStatus }, token);
     if (response.status === 200) {
       setExams(exams.map(exam => 
         exam._id === id ? { ...exam, active: newStatus } : exam

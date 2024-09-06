@@ -33,6 +33,7 @@ module.exports = {
                 start: data.start,
                 end: data.end,
                 questions: data.questions,
+                active: data.active,
             })
             if (!newExam) {
                 return {
@@ -52,6 +53,8 @@ module.exports = {
             }
         }
     },
+
+
 
     getExam: async (id) => {
         try {

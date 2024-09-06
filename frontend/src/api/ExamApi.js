@@ -25,6 +25,7 @@ export const editExam = async (examId, data, token) => {
         start: data.start,
         end: data.end,
         questions: data.questions,
+        active: data.active,
     };
     const headers = {
         Authorization: `Bearer ${token}`,
@@ -53,7 +54,3 @@ export const deleteExam = async (examId, token) => {
     };
     return apiClient.delete(`/api/exam/${examId}`, { headers });
 };
-
-export const updateExamStatus = async (id, active, token) => {
-
-}
