@@ -17,12 +17,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
   cors({
-    origin: ["https://blndt-sec-bav.com", "http://localhost:3000"],
-    methods: ["GET", "POST", "PUT", "DELETE","OPTIONS"],
+    origin: ["https://e-quiz-backend.vercel.app", "http://localhost:5000"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
   })
 );
-
 
 const authRoutes = require("./routes/auth");
 const questionRoutes = require("./routes/questions");
@@ -53,7 +52,6 @@ const options = {
       {
         url: "http://localhost:5000",
         description: "Local server",
-      },
     ],
   },
   apis: ["./swagger/*.yaml"],

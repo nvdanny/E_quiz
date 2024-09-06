@@ -25,6 +25,7 @@ export const editExam = async (examId, data, token) => {
         start: data.start,
         end: data.end,
         questions: data.questions,
+        active: data.active,
     };
     const headers = {
         Authorization: `Bearer ${token}`,

@@ -21,7 +21,7 @@ import {
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { deleteExam, listExams } from '../../api/ExamApi'; // Import các hàm từ ExamApi
+import { deleteExam, editExam, listExams } from '../../api/ExamApi'; // Import các hàm từ ExamApi
 
 const ViewExam = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -66,6 +66,19 @@ const ViewExam = () => {
     navigate(`/admin/exam/${id}`);
   };
 
+  const toggleExamActive = async (id, isActive) => {
+    const token = localStorage.getItem('accessToken');
+    const newStatus = !isActive;
+    const response = await editExam(id, { active: newStatus }, token);
+    if (response.status === 200) {
+      setExams(exams.map(exam => 
+        exam._id === id ? { ...exam, active: newStatus } : exam
+      ));
+    } else {
+      console.error(response.error);
+    }
+  };
+
   return (
     <CRow>
       <CCol>
@@ -98,8 +111,13 @@ const ViewExam = () => {
                       <CButton size="sm" color="warning" className="me-2" onClick={() => handleEditExam(exam._id)}>
                         <CIcon icon={cilPencil} />
                       </CButton>
-                      <CButton size="sm" color="danger" onClick={() => handleDeleteExam(exam._id)}>
+                      <CButton size="sm" color="danger" className="me-2" onClick={() => handleDeleteExam(exam._id)}>
                         <CIcon icon={cilTrash} />
+                      </CButton>
+                      <CButton size="sm"
+                        color={exam.active ? 'success' : 'secondary'}
+                        onClick={() => toggleExamActive(exam._id, exam.active)}>
+                        Active
                       </CButton>
                     </CTableDataCell>
                   </CTableRow>
