@@ -11,18 +11,17 @@ const cookieParser = require("cookie-parser");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// app.use(
-//   cors({
-//     origin: "https://blndt-sec-bav.com",
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//     credentials: true,
-//   })
-// );
-
-app.use(cors());
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(
+  cors({
+    origin: ["https://blndt-sec-bav.com", "http://localhost:3000"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true,
+  })
+);
 
 const authRoutes = require("./routes/auth");
 const questionRoutes = require("./routes/questions");
@@ -38,29 +37,29 @@ app.use("/api/auth", authRoutes);
 app.use("/api/question", questionRoutes);
 app.use("/api/exam", examRoutes);
 
-// const options = {
-//   definition: {
-//     openapi: "3.0.0",
-//     info: {
-//       title: "E_quiz",
-//       version: "1.0.11",
-//     },
-//     servers: [
-//       {
-//         url: "",
-//         descripton: "Live server",
-//       },
-//       {
-//         url: "https://api.blndt-sec-bav.com/",
-//         description: "Local server",
-//       },
-//     ],
-//   },
-//   apis: ["./swagger/*.yaml"],
-// };
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "E_quiz",
+      version: "1.0.11",
+    },
+    servers: [
+      {
+        url: "https://api.blndt-sec-bav.com/",
+        description: "Live server",
+      },
+      // {
+      //   url: "http://localhost:5000",
+      //   description: "Local server",
+      // },
+    ],
+  },
+  apis: ["./swagger/*.yaml"],
+};
 
-// const openapiSpecification = swaggerJsdoc(options);
-// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openapiSpecification));
+const openapiSpecification = swaggerJsdoc(options);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
