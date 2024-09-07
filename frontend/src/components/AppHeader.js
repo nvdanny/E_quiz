@@ -13,9 +13,11 @@ import {
   CNavLink,
   CNavItem,
   useColorModes,
+  CTooltip,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import {
+  cilAccountLogout,
   cilBell,
   cilContrast,
   cilEnvelopeOpen,
@@ -107,6 +109,13 @@ const AppHeader = () => {
               </CDropdownItem>
             </CDropdownMenu>
           </CDropdown>
+          <CNavItem>
+          <CTooltip content="Đăng xuất" placement="bottom">
+            <CNavLink href="/logout">
+              <CIcon icon={cilAccountLogout} />
+            </CNavLink>
+          </CTooltip>
+          </CNavItem>
         </CHeaderNav>
       </CContainer>
       <CContainer className="px-4" fluid>

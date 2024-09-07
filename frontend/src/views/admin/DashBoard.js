@@ -6,7 +6,7 @@ const DashBoard = () => {
         <CCard className="mb-4">
           <CCardHeader>Admin DashBoard</CCardHeader>
           <CCardBody>
-            Xin chao , web chua co cc gi ca 
+            Chào mừng đến với trang Admin
           </CCardBody>
         </CCard>
       </div>

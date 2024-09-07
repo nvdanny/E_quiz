@@ -45,7 +45,7 @@ const RegisterModal = ({ visible, toggle }) => {
         <div className="d-flex justify-content-end custom-close-button">
           <CCloseButton onClick={toggle} />
         </div>
-        <h2 className="text-center">Đăng Ký</h2>
+        <h2 className="text-center" style={{marginBottom:"30px"}}>Đăng Ký</h2>
         <form id="signUpForm" onSubmit={handleSubmit} >
           <div className="form-row">
             <div className="form-group col-md-6">
@@ -227,9 +227,13 @@ const RegisterModal = ({ visible, toggle }) => {
               />
             </div>
           </div>
-          <div className='custom-button-container'>
-            <button type="submit" className="btn btn-light btn-block custom-register">Đăng ký</button>
+          <div className="login-link-container">
+            <span>Đã có tài khoản? <a href="/login">Đăng nhập</a></span>
           </div>
+          <div className='custom-button-container'>
+            <button type="submit" className="btn btn-light btn-block custom-register">Đăng ký ngay</button>
+          </div>
+
         </form>
       </CModalBody>
     </CModal>

@@ -75,13 +75,48 @@ code {
   border: none !important;
   max-width: 200px !important;
   margin: 10px auto !important;
+  margin-top: 0px !important;
   padding: 10px !important;
-  text-align: center; /* Đảm bảo văn bản ở giữa nút */
+  text-align: center; 
+  text-transform: uppercase;
 }
 
 .custom-button-container {
   display: flex;
-  justify-content: center; /* Căn giữa theo chiều ngang */
-  align-items: center; /* Căn giữa theo chiều dọc */
-  height: 100%; /* Đảm bảo container có chiều cao đủ */
+  justify-content: center; 
+  align-items: center; 
+  height: 100%;
+}
+
+.custom-modal .form-group {
+  padding:0px 15px;
+}
+
+.custom-modal .form-group input {
+  background-color: inherit; /* Kế thừa màu nền từ phần tử cha */
+  background-color: rgba(255, 255, 255, 0.9); /* Đặt màu nền đen với độ trong suốt 50% */
+  color: black; /* Đặt màu chữ nếu cần */
+  border: none; /* Loại bỏ viền nếu cần */
+  padding: 10px; /* Thêm khoảng cách trong input nếu cần */
+  border-radius: 5px; /* Tạo bo góc nếu cần */
+}
+
+
+.custom-login {
+  background-color: green !important;
+  color: white !important;
+  border: none !important;
+  max-width: 200px !important;
+  margin: 10px auto !important;
+  padding: 10px !important;
+  text-align: center; 
+  text-transform: uppercase;
+}
+.login-link-container span{
+  margin-left: 10px;
+  
+}
+
+.login-link-container span a{
+  text-decoration-line: none; 
 }
