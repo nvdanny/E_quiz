@@ -26,6 +26,8 @@
     "react-router-dom": "^6.24.1",
     "react-scripts": "5.0.1",
     "redux": "^5.0.1",
+    "serve": "^14.2.3",
+    "serve-build": "^0.1.0",
     "simplebar-react": "^3.2.6",
     "web-vitals": "^2.1.4"
   },

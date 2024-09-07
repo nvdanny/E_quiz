@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  // baseURL: "https://api.blndt-sec-bav.com/",
-  baseURL: "http://localhost:5000",
+  baseURL: "https://api.blndt-sec-bav.com/",
+  // baseURL: "http://localhost:5000",
   withCredentials: true,
 });
 apiClient.interceptors.response.use(
@@ -17,7 +17,7 @@ apiClient.interceptors.response.use(
 const handleLogout = () => {
   localStorage.removeItem("accessToken");
   localStorage.removeItem("userInfo");
-  localStorage.removeItem("timeLeft");  
+  localStorage.removeItem("timeLeft");
   window.location.href = "/login";
 };
 
