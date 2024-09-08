@@ -17,11 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
   cors({
-    origin: [
-      "https://exam-server-p8gl2dfz2-nguyendaniel1307s-projects.vercel.app/",
-      "http://localhost:3000",
-      "https://blndt-sec-bav.com"
-    ],
+    origin: ["http://localhost:3000", "https://blndt-sec-bav.com"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
   })
@@ -50,7 +46,7 @@ const options = {
     },
     servers: [
       {
-        url: "https://api.blndt-sec-bav.com/",
+        url: "https://api.blndt-sec-bav.com",
         description: "Live server",
       },
       {
