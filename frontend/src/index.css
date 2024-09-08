@@ -120,3 +120,9 @@ code {
 .login-link-container span a{
   text-decoration-line: none; 
 }
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+}

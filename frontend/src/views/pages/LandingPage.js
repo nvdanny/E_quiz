@@ -3,7 +3,6 @@ import RegisterModal from './RegisterModal';
 
 const LandingPage = () => {
   const [isModalVisible, setModalVisible] = useState(false);
-
   useEffect(() => {
     const handleMessage = (event) => {
       if (event.data === 'openSignupModal') {
@@ -17,7 +16,7 @@ const LandingPage = () => {
       window.removeEventListener('message', handleMessage);
     };
   }, []);
-
+  document.getElementById('root').style.overflow = 'hidden';
   const toggleModal = () => {
     setModalVisible(false);
   };
