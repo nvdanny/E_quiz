@@ -1,0 +1,122 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* src/Register.css */
+
+.register-container {
+  margin-top: 50px;
+}
+
+.form-control {
+  margin-bottom: 5px;
+}
+
+@media (max-width: 576px) {
+  .form-row {
+    flex-direction: column;
+  }
+}
+
+.toast-container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.toast-container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.custom-modal .modal-content {
+  background: url('/public/landing-page/images/blndt-contact-bg.png') no-repeat center top; 
+  background-size: cover; 
+}
+.custom-modal .modal-header {
+  background-color: rgba(0, 0, 0, 0.5); 
+}
+
+.custom-modal .modal-body {
+  background: rgba(0, 0, 0, 0.5); 
+  color: white;
+}
+
+.custom-modal .close {
+  color: white;
+  font-size: 1.5rem;
+}
+.custom-close-button button {
+  background-color: white !important; 
+  font-size: 1rem;
+}
+
+.custom-register {
+  background-color: darkred !important;
+  color: white !important;
+  border: none !important;
+  max-width: 200px !important;
+  margin: 10px auto !important;
+  margin-top: 0px !important;
+  padding: 10px !important;
+  text-align: center; 
+  text-transform: uppercase;
+}
+
+.custom-button-container {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  height: 100%;
+}
+
+.custom-modal .form-group {
+  padding:0px 15px;
+}
+
+.custom-modal .form-group input {
+  background-color: inherit; /* Kế thừa màu nền từ phần tử cha */
+  background-color: rgba(255, 255, 255, 0.9); /* Đặt màu nền đen với độ trong suốt 50% */
+  color: black; /* Đặt màu chữ nếu cần */
+  border: none; /* Loại bỏ viền nếu cần */
+  padding: 10px; /* Thêm khoảng cách trong input nếu cần */
+  border-radius: 5px; /* Tạo bo góc nếu cần */
+}
+
+
+.custom-login {
+  background-color: green !important;
+  color: white !important;
+  border: none !important;
+  max-width: 200px !important;
+  margin: 10px auto !important;
+  padding: 10px !important;
+  text-align: center; 
+  text-transform: uppercase;
+}
+.login-link-container span{
+  margin-left: 10px;
+  
+}
+
+.login-link-container span a{
+  text-decoration-line: none; 
+}
