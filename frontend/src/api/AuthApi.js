@@ -17,7 +17,6 @@ export const signUp = (username, email, password, displayName, phoneNumber, birt
         studentId: studentId,
         linkFb: linkFb
     };
-
     return apiClient.post(`/api/auth/sign-up`, payload);
 };
 

@@ -18,6 +18,8 @@ const handleLogout = () => {
   localStorage.removeItem("accessToken");
   localStorage.removeItem("userInfo");
   localStorage.removeItem("timeLeft");
+  localStorage.removeItem('selectedAnswers')
+  localStorage.removeItem('timeFinish')
   window.location.href = "/login";
 };
 

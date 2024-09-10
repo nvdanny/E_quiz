@@ -5,7 +5,9 @@ import './scss/style.scss'
 import {Cloudinary} from "@cloudinary/url-gen";
 import LandingPage from './views/pages/LandingPage';
 // Lazy load the components
-const ExamPage = React.lazy(() => import('./views/pages/ExamPage'))
+const ExamPage = React.lazy(() => import('./views/pages/exam/ExamPage'))
+const ExamFinish = React.lazy(() => import('./views/pages/exam/ExamFinishPage'))
+const ExamWelcomePage = React.lazy(() => import('./views/pages/exam/ExamWelcomePage'))
 const Login = React.lazy(() => import('./views/pages/Login'))
 const Logout = React.lazy(() => import('./views/pages/Logout'))
 const Register = React.lazy(() => import('./views/pages/Register'))
@@ -31,7 +33,8 @@ function App() {
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<Register/>} />
           <Route exact path="/logout" element={<Logout/>} />
-          <Route path="/welcome" element={<LandingPage />} />
+          <Route path="/welcome" element={<ExamWelcomePage />} />
+          <Route path="/exam/finish" element={<ExamFinish />} />
           <Route path="/admin/*" name="Home" element={<DefaultLayout />} />
           <Route path="*" element={<LandingPage />} />
         </Routes>

@@ -41,8 +41,13 @@ const Login = () => {
     try {
       const response = await login(email, password);
       const { data, accessToken } = response.data;
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("userInfo", JSON.stringify(data));
+      if(data !=null && accessToken !=null) {
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("userInfo", JSON.stringify(data));
+      }
+      else {
+        setErrorMessage("Đăng nhập thất bại. Vui lòng thử lại.");
+      }
 
       if (data.role === "admin") {
         navigate("/admin/dashboard");
@@ -83,17 +88,21 @@ const Login = () => {
       }
     }
   }, [navigate]);
-
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleLogin();
+    }
+  };
   return (
     <div className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
         <CRow className="justify-content-center">
-          <CCol md={5}>
+          <CCol md={8} lg={7} xl={5}>
             <CCardGroup>
               <CCard className="p-4">
                 <CCardBody>
                   <CForm>
-                    <h1>Đăng nhập</h1>
+                    <h2 className= "mb-4">Đăng nhập</h2>
                     <p className="text-body-secondary">
                       Đăng nhập vào tài khoản của bạn
                     </p>
@@ -109,6 +118,7 @@ const Login = () => {
                         autoComplete="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        onKeyDown={handleKeyDown}
                       />
                     </CInputGroup>
                     <CInputGroup className="mb-2">
@@ -121,17 +131,18 @@ const Login = () => {
                         autoComplete="current-password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        onKeyDown={handleKeyDown}
                       />
                     </CInputGroup>
                     <CRow>
-                      <CCol xs={6} className="text-left">
+                      <CCol xs={6} style={{textWrap:"nowrap"}}>
                         <Link to="/register">
                           <CButton color="link" active tabIndex={-1}>
                             Đăng ký tại đây
                           </CButton>
                         </Link>
                       </CCol>
-                      <CCol xs={6} className="text-right text-end">
+                      <CCol xs={6} className="text-end" style={{textWrap:"nowrap"}}>
                         <Link to="/resetPassword">
                           <CButton color="link" active tabIndex={-1}>
                             Quên mật khẩu?
@@ -140,7 +151,7 @@ const Login = () => {
                       </CCol>
                     </CRow>
                     <CRow className="justify-content-md-center">
-                      <CCol xs={4} className="text-right mt-4">
+                      <CCol className="text-center mt-4" >
                         <CButton
                           color="primary"
                           className="px-4"

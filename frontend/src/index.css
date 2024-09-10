@@ -126,3 +126,32 @@ html, body, #root {
   padding: 0;
   height: 100vh;
 }
+
+.input-error {
+  border-color: red !important;
+}
+.form-control::placeholder {
+  font-size: 14px !important;
+}
+
+.welcomePage {
+  background-position: center center;
+  background-size: cover; 
+  text-align: center;
+  height: 100vh;
+  padding: 0px 20px;
+}
+
+.welcomePage .content {
+  max-width: 800px;
+  margin: 0 auto; /* Canh giữa theo chiều ngang */
+  padding-top: 100px; /* Thêm khoảng cách từ trên cùng */
+  background-color: rgba(255, 255, 255, 0.8); /* Nền trắng với độ mờ */
+  border-radius: 10px; /* Góc bo tròn */
+  padding: 20px; /* Khoảng cách trong nội dung */
+}
+.welcomePage .content p,
+.welcomePage .content div {
+  font-size: 16px !important;
+  font-weight: normal;
+}
