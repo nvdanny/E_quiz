@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "https://.blndt-sec-bav.com/",
+  baseURL: "https://blndt-sec-bav.com/",
   // baseURL: "http://localhost:5000",
   withCredentials: true,
 });
