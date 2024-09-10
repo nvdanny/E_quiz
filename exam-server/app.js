@@ -50,7 +50,7 @@ const options = {
     },
     servers: [
       {
-        url: "https://api.blndt-sec-bav.com",
+        url: "https://blndt-sec-bav.com",
         description: "Live server",
       },
       {
