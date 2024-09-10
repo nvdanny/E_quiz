@@ -11,36 +11,31 @@ const examSchema = new Schema({
     type: Number,
     required: true 
   },
-  // start: {
+  // startTime: {
   //   type: Date,
   //   required: true
   // },
   // end: {
-  //   type: Date,
+  //   type: Boolean,
   //   required: true
   // },
-  active: {
-    type: Boolean,
-    required: true,
-    default: false
-  },
   questions : [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Question',
     required : false
   }],
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now
-  },
+  // createdAt: {
+  //   type: Date,
+  //   default: Date.now
+  // },
+  // updatedAt: {
+  //   type: Date,
+  //   default: Date.now
+  // },
   active :{
     type: Boolean,
     default:false
   }
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('Exam', examSchema);

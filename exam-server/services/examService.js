@@ -1,3 +1,4 @@
+const { submitExam } = require('../controllers/examController');
 const Exam = require('../models/Exam');
 module.exports = {
     createExam : async (data) => {
@@ -56,12 +57,25 @@ module.exports = {
 
 
 
-    getExam: async (id) => {
+    getExam: async (id, user) => {
         try {
-            const foundExam =  await Exam.findById(id).populate({path: 'questions'});
-            return {
-                success: true,
-                foundExam
+            var foundExam;
+            if (user.role == 'admin') {
+                foundExam =  await Exam.findById(id).populate({path: 'questions', select: '-answer'});
+            }
+            else {
+                foundExam =  await Exam.findById(id).populate({path: 'questions'});
+            }
+            if (foundExam) {
+                return {
+                    success: true,
+                    foundExam
+                }
+            }
+            else {
+                return {
+                    error: "Exam not found"
+                }
             }
         }
         catch (err) {
@@ -104,17 +118,6 @@ module.exports = {
         }
     },
 
-    startExam : async (data) => {
-        try {
-            const exam = await Exam.findById(data.id);
-            
-        }
-        catch(err) {
-            return {
-                error: err,
-            }
-        }
-    },
     updateStatus: async (data) => {
         try {
             const exam = await Exam.findById(data.id)
@@ -139,6 +142,28 @@ module.exports = {
             }
         }
     },
+    // startExam : async (data) => {
+    //     try {
+    //         const exam = await Exam.findById(data.id);
+    //         if (!exam) {
+    //             return {
+    //                 error: "exam not found"
+    //             }
+    //         }
+    //         exam.set({
+    //             startTime: new Date(),
+    //         })
+    //         await exam.save();
+    //         return {
+    //             success: true,
+    //             msg: "Oke"
+    //         }
+    //     }
+    //     catch(err) {
+    //         return {
+    //             error: err,
+    //         }
+    //     }
+    // },
 
-    
 }

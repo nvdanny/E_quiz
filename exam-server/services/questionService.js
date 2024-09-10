@@ -6,8 +6,7 @@ module.exports = {
         try {
             const savedOptions = data.options.map(option => ({ _id: new mongoose.Types.ObjectId(), ...option }));
             const savedAnswer = savedOptions[data.answer];
-            // const {path, filename} = file;
-            const path = "/0"
+            const {path, filename} = file;
             const newQuestion = await Question.create({
                 description: data.description,
                 imageUrl: path,
