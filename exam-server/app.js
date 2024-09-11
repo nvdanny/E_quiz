@@ -30,6 +30,7 @@ app.use(
 const authRoutes = require("./routes/auth");
 const questionRoutes = require("./routes/questions");
 const examRoutes = require("./routes/exams");
+const submissionRoutes = require("./routes/submission");
 
 mongoose.connect(config.mongoURI);
 const connection = mongoose.connection;
@@ -40,6 +41,7 @@ connection.once("open", () => {
 app.use("/api/auth", authRoutes);
 app.use("/api/question", questionRoutes);
 app.use("/api/exam", examRoutes);
+app.use("/api/submission", submissionRoutes);
 
 const options = {
   definition: {
@@ -50,7 +52,7 @@ const options = {
     },
     servers: [
       {
-        url: "https://blndt-sec-bav.com",
+        url: "https://api.blndt-sec-bav.com",
         description: "Live server",
       },
       {

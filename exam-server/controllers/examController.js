@@ -50,7 +50,7 @@ module.exports = {
 
   getExam : async (req, res) => {
     try {
-      const response = await examService.getExam(req.params.examId);
+      const response = await examService.getExam(req.params.examId, req.user);
       if (response.error) {
         res.status(400).json({ msg: 'Error' });
       }
@@ -92,6 +92,22 @@ module.exports = {
       res.status(500).json({ msg: "Server Error" });
     }
   },
+
+  startExam: async (req, res) => {
+    try {
+      const data = req.body;
+      const response = await examService.startExam(data);
+      if (response.error) {
+        res.status(400).json({ msg: response.error });
+      }
+      else {
+        res.status(200).json({ msg: response })
+      }
+    }
+    catch (err) {
+      res.status(500).json({ msg: "Server Error" });
+    }
+},
 
   // submitExam : async (req, res) => {
   //   const { userId, answers } = req.body;
