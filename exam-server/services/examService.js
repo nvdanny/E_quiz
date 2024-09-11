@@ -61,10 +61,10 @@ module.exports = {
         try {
             var foundExam;
             if (user.role == 'admin') {
-                foundExam =  await Exam.findById(id).populate({path: 'questions', select: '-answer'});
+                foundExam =  await Exam.findById(id).populate({path: 'questions'});
             }
             else {
-                foundExam =  await Exam.findById(id).populate({path: 'questions'});
+                foundExam =  await Exam.findById(id).populate({path: 'questions', select: '-answer'});
             }
             if (foundExam) {
                 return {
@@ -85,11 +85,16 @@ module.exports = {
         }
     },
 
-    getAllExam: async () => {
+    getAllExam: async (user) => {
         try {
-            const exams = await Exam.find().populate({path: 'questions'});
+            var exams;
+            if (user.role == 'admin') {
+                exams = await Exam.find().populate({path: 'questions'});
+            }
+            else {
+                exams = await Exam.find({active: true}).populate({path: 'questions', select: '-answer'});
+            }
             return {
-                success: true,
                 exams
             }
         }

@@ -4,9 +4,9 @@ const submissionService = require("../services/submissionService")
 module.exports = {
   doExam : async (req, res) => {
     try {
-      const data = req.body;
+      // const data = req.body;
       const user = req.user;
-      const response = await submissionService.doExam(data, user);
+      const response = await submissionService.doExam(user);
       if (response.error) {
         res.status(400).json({msg: response.error})
       }
