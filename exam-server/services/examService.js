@@ -55,9 +55,31 @@ module.exports = {
         }
     },
 
+    getActiveExam: async () => {
+        try {
+            var exams;
+            exams = await Exam.find({active: true}).populate({path: 'questions', select: '-answer'});
+            if (exams.length == 0) {
+                return {
+                    error: "No active exam available",
+                }
+            }
+            else {
+                let randomExam = exams[Math.floor(Math.random() * exams.length)];
+                return {
+                    exam: randomExam,
+                }
+            }
+        }
+        catch(err) {
+            console.log(err);
+            return {
+                error: "Server Error",
+            }
+        }
+    },
 
-
-    getExam: async (id, user) => {
+    getExamById: async (id, user) => {
         try {
             var foundExam;
             if (user.role == 'admin') {

@@ -19,14 +19,15 @@ module.exports = {
             //         error: "you already did this exam"
             //     }
             // }
-            if (foundUser.doingExam == true) {
-                return {
-                    error: "you r doing another exam"
-                }
-            }
-            else {
+            // if (foundUser.doingExam == true) {
+            //     return {
+            //         success: true,
+            //         error: "you r doing another exam"
+            //     }
+            // }
+            // else {
                 foundUser.set({
-                    doingExam: true,
+                    doingExam: false,
                     startExam: Date.now(),
                 })
                 await foundUser.save();
@@ -34,7 +35,7 @@ module.exports = {
                     success: true,
                     msg: "Oke"
                 }
-            }
+            // }
         }
         catch(err) {
             return {
@@ -48,21 +49,22 @@ module.exports = {
             const questions = exam.questions;
             const foundSubmission = await Submission.findOne({examId: data.id, userId: user.id});
             const foundUser = await User.findById(user.id);
-            const submitedAnswer = data.answer;
+            const submitedAnswer = data.answers;
             foundUser.set({
                 doingExam: false,
             })
             await foundUser.save();
-            if (foundSubmission) {
-                return {
-                    error: "you already did this exam"
-                }
-            }
-            else if (foundUser.startExam + exam.duration * 60000 > Date.now() + 300000) {
+            // if (foundSubmission) {
+            //     return {
+            //         success: false,
+            //         error: "you already did this exam"
+            //     }
+            // }
+            if (foundUser.startExam + exam.duration * 60000 > Date.now() + 300000) {
                 let correctAnswer = 0;
                 for (let i = 0; i < questions.length; i++) {
-                    if (submitedAnswer[i]) {
-                        if (questions[i].options[submitedAnswer[i]]._id == questions[i].answer._id) {
+                    if (submitedAnswer[i] != undefined || submitedAnswer[i] != null) {
+                        if (questions[i].options[submitedAnswer[i]]._id.toString() === questions[i].answer._id.toString()) {
                             correctAnswer++;
                         }
                     }
@@ -85,6 +87,7 @@ module.exports = {
             }
             else {
                 return {
+                    success: false,
                     error: 'Time out'
                 }
             }
@@ -92,7 +95,8 @@ module.exports = {
         catch(err) {
             console.log(err)
             return {
-                error: err,
+                success: false,
+                error: "loi",
             }
         }
     }
