@@ -27,7 +27,7 @@ const ExamPage = () => {
   useEffect(() => {
     if (localStorage.getItem('accessToken') == null) {
       navigate('/login');
-      return; // Tránh thực hiện các bước khác nếu chưa có accessToken
+      return;
     }
     if (timeLeft===0 && timeFinish){
       navigate('/exam/finish');

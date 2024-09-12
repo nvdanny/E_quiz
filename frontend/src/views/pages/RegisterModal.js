@@ -49,8 +49,71 @@ const RegisterModal = ({ visible, toggle }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form data:', formData);
-    
+  
+    const phoneNumberPattern = /^[0-9]{10,11}$/;
+    if (!phoneNumberPattern.test(formData.phoneNumber)) {
+      setToast(
+        <CToast autohide={true} visible={true} color="danger">
+          <CToastHeader closeButton>
+            <svg className="rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
+              <rect width="100%" height="100%" fill="#dc3545"></rect>
+            </svg>
+            <div className="fw-bold me-auto">Lỗi</div>
+          </CToastHeader>
+          <CToastBody>Số điện thoại không hợp lệ. Vui lòng nhập số điện thoại có 10 hoặc 11 chữ số.</CToastBody>
+        </CToast>
+      );
+      return;
+    }
+  
+    const fbPattern = /^https:\/\/www\.facebook\.com\//;
+    if (!fbPattern.test(formData.linkFb)) {
+      setToast(
+        <CToast autohide={true} visible={true} color="danger">
+          <CToastHeader closeButton>
+            <svg className="rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
+              <rect width="100%" height="100%" fill="#dc3545"></rect>
+            </svg>
+            <div className="fw-bold me-auto">Lỗi</div>
+          </CToastHeader>
+          <CToastBody>Link Facebook không hợp lệ. Vui lòng nhập đúng đường dẫn Facebook.</CToastBody>
+        </CToast>
+      );
+      return;
+    }
+  
+    const identityCardPattern = /^[0-9]{12}$/;
+    if (!identityCardPattern.test(formData.identityCard)) {
+      setToast(
+        <CToast autohide={true} visible={true} color="danger">
+          <CToastHeader closeButton>
+            <svg className="rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
+              <rect width="100%" height="100%" fill="#dc3545"></rect>
+            </svg>
+            <div className="fw-bold me-auto">Lỗi</div>
+          </CToastHeader>
+          <CToastBody>Số căn cước công dân phải có đúng 12 chữ số.</CToastBody>
+        </CToast>
+      );
+      return;
+    }
+  
+    const birthYear = new Date(formData.birthday).getFullYear();
+    if (birthYear > 2010) {
+      setToast(
+        <CToast autohide={true} visible={true} color="danger">
+          <CToastHeader closeButton>
+            <svg className="rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
+              <rect width="100%" height="100%" fill="#dc3545"></rect>
+            </svg>
+            <div className="fw-bold me-auto">Lỗi</div>
+          </CToastHeader>
+          <CToastBody>Ngày sinh không hợp lệ</CToastBody>
+        </CToast>
+      );
+      return;
+    }
+  
     try {
       const response = await signUp(
         formData.username,
@@ -59,13 +122,13 @@ const RegisterModal = ({ visible, toggle }) => {
         formData.displayName,
         formData.phoneNumber,
         formData.birthday,
-        formData.university !=''?formData.university:formData.otherUniversity,
+        formData.university !== '' ? formData.university : formData.otherUniversity,
         formData.major,
         formData.year,
         formData.studentId,
         formData.linkFb
       );
-      if (response.status==200 && response.data.accessToken!=null) {
+      if (response.status === 200 && response.data.accessToken != null) {
         const { data, accessToken } = response.data;
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("userInfo", JSON.stringify(data));
@@ -82,7 +145,6 @@ const RegisterModal = ({ visible, toggle }) => {
         );
         navigate("/welcome");
       }
-
     } catch (error) {
       if (error.response && error.response.status === 400 && error.response.data.msg === "User already exists") {
         setToast(
@@ -111,6 +173,7 @@ const RegisterModal = ({ visible, toggle }) => {
       }
     }
   };
+  
 
   return (
     <CModal
@@ -305,6 +368,8 @@ const RegisterModal = ({ visible, toggle }) => {
                 placeholder="Sinh viên năm mấy"
                 value={formData.year}
                 onChange={handleChange}
+                min={1}
+                max={6}
                 required
               />
             </div>
