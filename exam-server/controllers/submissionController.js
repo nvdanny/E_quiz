@@ -14,6 +14,7 @@ module.exports = {
         res.status(200).json(response)
       }
     } catch (err) {
+      console.log(err)
       res.status(500).json({status: false, msg: 'Server error' });
     }
   },
@@ -30,6 +31,7 @@ module.exports = {
         res.status(200).json(response)
       }
     } catch (err) {
+      console.log(err)
       res.status(500).json({ success: false, msg: "Server error" });
     }
   },
