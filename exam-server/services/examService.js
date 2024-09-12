@@ -1,4 +1,3 @@
-const { submitExam } = require('../controllers/examController');
 const Exam = require('../models/Exam');
 module.exports = {
     createExam : async (data) => {
