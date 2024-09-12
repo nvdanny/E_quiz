@@ -2,6 +2,8 @@ import { Background } from '@cloudinary/url-gen/qualifiers';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
+import { doExam } from '../../../api/ExamApi';
+
 const ExamWelcomePage = () => {
   const [show, setShow] = useState(false);
   const navigate = useNavigate()
@@ -11,8 +13,25 @@ const ExamWelcomePage = () => {
     navigate('/logout');
   }
 
-  const startExam = () => {
-    window.location.href = '/exam';
+  const startExam = async () => {
+    const token = localStorage.getItem('accessToken');
+    try {
+      const response = await doExam(token);
+      if (response.data.success === false) {
+        window.location.href = '/exam/error';
+      }
+      else {
+        window.location.href = '/exam';
+      }
+    }
+    catch (error) {
+      if (error.response) {
+        window.location.href = '/exam/error';
+      }
+      else {
+        console.error("Error setting up the request:", error.message);
+      }
+    }
   };
 
   return (
