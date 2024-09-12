@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import './ExamPage.css';
 import { Modal, Button, Toast, ToastContainer } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { listExams } from '../../../api/ExamApi';
+import { listExams, getActiveExam, submitExam } from '../../../api/ExamApi';
 
 const ExamPage = () => {
   const navigate = useNavigate();
 
-  const [exams, setExams] = useState([]);
+  const [exams, setExams] = useState();
   const [questions, setQuestions] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [timeFinish, setTimeFinish] = useState(() => {
@@ -29,16 +29,20 @@ const ExamPage = () => {
       navigate('/login');
       return;
     }
-    if (timeLeft===0 && timeFinish){
-      navigate('/exam/finish');
-    }
+    // if (timeLeft===0 && timeFinish){
+      // navigate('/exam/finish');
+    // }
     const fetchExams = async () => {
       try {
+        if (localStorage.getItem('selectedAnswers') !== null) {
+          localStorage.removeItem('selectedAnswers');
+        }
         const token = localStorage.getItem('accessToken');
-        const response = await listExams(token);
-        setExams(response.data.msg.exams);
-        if (response.data.msg.exams.length > 0) {
-          const exam = response.data.msg.exams[0];
+        const response = await getActiveExam(token);
+        console.log(response.data.exam)
+        setExams(response.data.exam);
+        if (response.data.exam) {
+          const exam = response.data.exam;
           setQuestions(exam.questions);
           
           if (!timeFinish) {
@@ -47,6 +51,9 @@ const ExamPage = () => {
             setTimeFinish(finishTime);
             localStorage.setItem('timeFinish', finishTime);
           }
+        }
+        else {
+          navigate('/exam/error1');
         }
       } catch (error) {
         console.error('Error fetching exams:', error);
@@ -73,7 +80,7 @@ const ExamPage = () => {
         try {
           // const token = localStorage.getItem('accessToken');
           // await submitExam(token, selectedAnswers); // Gọi API để nộp bài thi
-          navigate('/exam/finish'); // Chuyển hướng đến trang kết quả
+          // navigate('/exam/finish'); // Chuyển hướng đến trang kết quả
         } catch (error) {
           console.error('Error submitting exam:', error);
         }
@@ -96,9 +103,22 @@ const ExamPage = () => {
     setShowModal(true);
   };
 
-  const handleConfirmSubmit = () => {
+  const handleConfirmSubmit = async () => {
+    const token = localStorage.getItem('accessToken');
+    try {
+      const response = await submitExam(token, exams._id, selectedAnswers);
+      if (response.data.success == false) {
+        navigate('/exam/error');
+      }
+      else {
+        navigate('/exam/finish');
+      }
+    }
+    catch (err) {
+      console.log(err)
+      navigate('/exam/error');
+    }
     setShowModal(false);
-    navigate('/exam/finish');
   };
 
   const handleCloseModal = () => setShowModal(false);

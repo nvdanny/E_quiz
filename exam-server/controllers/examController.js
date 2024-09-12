@@ -48,9 +48,23 @@ module.exports = {
     }
   },
 
-  getExam : async (req, res) => {
+  getActiveExam : async (req, res) => {
     try {
-      const response = await examService.getExam(req.params.examId, req.user);
+      const response = await examService.getActiveExam();
+      if (response.error) {
+        res.status(400).json(response.error);
+      }
+      else {
+        res.status(200).json(response)
+      }
+    } catch (err) {
+      res.status(500).json({ msg: 'Server error' });
+    }
+  },
+
+  getExamById : async (req, res) => {
+    try {
+      const response = await examService.getExamById(req.params.examId, req.user);
       if (response.error) {
         res.status(400).json({ msg: 'Error' });
       }
@@ -64,8 +78,7 @@ module.exports = {
   
   getAllExam: async (req, res) => {
     try {
-      const data = req.body;
-      const response = await examService.getAllExam(data);
+      const response = await examService.getAllExam(req.user);
       if (response.error) {
         res.status(400).json({ msg: 'Error' });
       }
