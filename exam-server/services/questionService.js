@@ -2,14 +2,27 @@ const mongoose = require('mongoose');
 const Question = require('../models/Question');
 
 module.exports = {
-    createQuestion: async (data, file) => {
+    createQuestion: async (data, files) => {
         try {
-            const savedOptions = data.options.map(option => ({ _id: new mongoose.Types.ObjectId(), ...option }));
+            data.options = JSON.parse(data.options)
+            const savedOptions = data.options.map((option, i) => {
+                let image = `options[${i+1}]`
+                if (files[image]) {
+                    var path = files[image][0]?.path
+                }
+                return {
+                    _id: new mongoose.Types.ObjectId(),
+                    text: option.text,
+                    imageUrl: path || option.imageUrl
+                }
+            });
             const savedAnswer = savedOptions[data.answer];
-            const {path, filename} = file;
+            if (files['image']) {
+                var pathQuestion = files['image'][0]?.path
+            }
             const newQuestion = await Question.create({
                 description: data.description,
-                imageUrl: path,
+                imageUrl: pathQuestion,
                 options: savedOptions,
                 answer: savedAnswer,
             })
@@ -64,15 +77,19 @@ module.exports = {
         }
     },
 
-    editQuestion: async (data, file) => {
+    editQuestion: async (data, files) => {
         try {
-            // const {path, filename} = file;
-            const path = "/0"
-            const savedOptions = data.options.map(option => ({ _id: new mongoose.Types.ObjectId(), ...option }));
+            const savedOptions = data.options.map((option, index) => {
+                return {
+                    _id: new mongoose.Types.ObjectId(),
+                    text: option.text,
+                    imageUrl: files[index + 1].path || option.imageUrl
+                }
+            });
             const savedAnswer = savedOptions[data.answer];
             const question = await Question.findByIdAndUpdate(data.id, {
                 description: data.description,
-                imageUrl: path,
+                imageUrl: files[0].path,
                 options: savedOptions,
                 answer: savedAnswer
             })

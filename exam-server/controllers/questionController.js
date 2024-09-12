@@ -4,9 +4,10 @@ module.exports = {
   createQuestion : async (req, res) => {
     try {
       const data = req.body;
-      const file = req.file;
-      const response = await questionService.createQuestion(data, file);
+      const files = req.files;
+      const response = await questionService.createQuestion(data, files);
       if (response.error) {
+        console.log(response)
         res.status(400).json({ msg: 'Unable to create question'});
       }
       else {
