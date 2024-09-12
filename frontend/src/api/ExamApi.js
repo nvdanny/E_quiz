@@ -67,3 +67,29 @@ export const updateStatus = async (examId, newStatus, token) => {
     };
     return apiClient.post(`/api/exam/updateStatus`, payload, { headers });
 };
+
+export const doExam = async (token) => {
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    };
+    return apiClient.get(`/api/submission/`, { headers });
+}
+
+export const getActiveExam = async (token) => {
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    };
+    return apiClient.get(`/api/exam/`, { headers });
+}
+
+export const submitExam = async (token, examId, answers) => {
+    const payload = {
+        id: examId,
+        answers: answers,
+    };
+    const headers = {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+    };
+    return apiClient.post(`/api/submission/submit`, payload, {headers});
+}
