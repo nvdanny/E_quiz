@@ -30,8 +30,8 @@ const ExamPage = () => {
       navigate('/login');
       return;
     }
-
-    if (!localStorage.getItem('submmited')) {
+    const submitted = localStorage.getItem('submitted');
+    if (!submitted || submitted === "true") {
       navigate('/exam/finish');
       return;
     }
@@ -63,7 +63,6 @@ const ExamPage = () => {
             setTimeLeft(finishTime - currentTime);
           }
         } else {
-          // alert("123")
           navigate('/exam/error1');
         }
       } catch (error) {
