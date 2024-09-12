@@ -76,7 +76,7 @@ header.stick .header-main.fixed {
     align-items: center;
     background: darkred;
     padding: 0 20px;
-    border-radius: 1px;
+    border-radius: 20px;
     color: #fff;
     font-size: 16px;
     font-weight: 600;
@@ -384,7 +384,7 @@ header.stick .header-main.fixed {
     border-radius: 24px;
     text-align: center;
     color: #fff;
-    max-width: 800px;
+    max-width: 900px;
     position: relative;
     margin: 0px auto;
     /* left: 53%; */
@@ -1381,7 +1381,6 @@ footer .title-section h3{
     .header-menu .signupButton{
         display: none;
     }
-
     .box-section-gia-tri {
         background: var(--color-highlight);
         padding: 25px;
