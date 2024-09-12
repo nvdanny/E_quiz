@@ -44,6 +44,7 @@ const Login = () => {
       if(data !=null && accessToken !=null) {
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("userInfo", JSON.stringify(data));
+        localStorage.setItem("submitted", data.doingExam);
       }
       else {
         setErrorMessage("Đăng nhập thất bại. Vui lòng thử lại.");

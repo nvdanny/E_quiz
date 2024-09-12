@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import './ExamPage.css';
 import { Modal, Button, Toast, ToastContainer } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { listExams, getActiveExam, submitExam } from '../../../api/ExamApi';
+import { getActiveExam, submitExam, getExamById } from '../../../api/ExamApi';
 
 const ExamPage = () => {
+  
   const navigate = useNavigate();
 
-  const [exams, setExams] = useState();
+  const [exams, setExams] = useState(null);
   const [questions, setQuestions] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [timeFinish, setTimeFinish] = useState(() => {
@@ -16,8 +17,8 @@ const ExamPage = () => {
   });
   const [timeLeft, setTimeLeft] = useState(() => {
     const savedTimeFinish = localStorage.getItem('timeFinish');
-    if(savedTimeFinish){
-      return parseInt(savedTimeFinish) - Math.floor(Date.now() / 1000) > 0 ? parseInt(savedTimeFinish) - Math.floor(Date.now() / 1000) : 0;
+    if (savedTimeFinish) {
+      return Math.max(parseInt(savedTimeFinish) - Math.floor(Date.now() / 1000), 0);
     }
     return 0;
   });
@@ -25,38 +26,49 @@ const ExamPage = () => {
   const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem('accessToken') == null) {
+    if (!localStorage.getItem('accessToken')) {
       navigate('/login');
       return;
     }
-    // if (timeLeft===0 && timeFinish){
-      // navigate('/exam/finish');
-    // }
+
+    if (!localStorage.getItem('submmited')) {
+      navigate('/exam/finish');
+      return;
+    }
+
     const fetchExams = async () => {
       try {
-        if (localStorage.getItem('selectedAnswers') !== null) {
-          localStorage.removeItem('selectedAnswers');
-        }
         const token = localStorage.getItem('accessToken');
-        const response = await getActiveExam(token);
-        console.log(response.data.exam)
-        setExams(response.data.exam);
-        if (response.data.exam) {
-          const exam = response.data.exam;
-          setQuestions(exam.questions);
-          
+        const examId = localStorage.getItem('examId');
+        let examData;
+
+        if (examId) {
+          const response = await getExamById(examId, token);
+          examData = response.data.msg.foundExam;
+        } else {
+          const response = await getActiveExam(token);
+          examData = response.data.exam;
+        }
+
+        if (examData) {
+          setExams(examData);
+          setQuestions(examData.questions);
+          localStorage.setItem("examId", examData._id);
+
           if (!timeFinish) {
             const currentTime = Math.floor(Date.now() / 1000);
-            const finishTime = currentTime + exam.duration - 60;
+            const finishTime = currentTime + examData.duration * 60;
             setTimeFinish(finishTime);
             localStorage.setItem('timeFinish', finishTime);
+            setTimeLeft(finishTime - currentTime);
           }
-        }
-        else {
+        } else {
+          // alert("123")
           navigate('/exam/error1');
         }
       } catch (error) {
         console.error('Error fetching exams:', error);
+        navigate('/exam/error');
       }
     };
 
@@ -65,25 +77,17 @@ const ExamPage = () => {
     const savedAnswers = JSON.parse(localStorage.getItem('selectedAnswers') || '{}');
     setSelectedAnswers(savedAnswers);
 
-    const timerId = setInterval(async () => {
+    const timerId = setInterval(() => {
       const currentTime = Math.floor(Date.now() / 1000);
-      const updatedTimeLeft = (timeFinish && timeFinish > currentTime) ? timeFinish - currentTime : 0;
+      const updatedTimeLeft = timeFinish ? Math.max(timeFinish - currentTime, 0) : 0;
       setTimeLeft(updatedTimeLeft);
-  
-      if (updatedTimeLeft > 0) {
-        if (updatedTimeLeft === 60) {
-          setShowToast(true);
-        }
-      } else {
+
+      if (updatedTimeLeft <= 0) {
         clearInterval(timerId);
         setShowToast(true);
-        try {
-          // const token = localStorage.getItem('accessToken');
-          // await submitExam(token, selectedAnswers); // Gọi API để nộp bài thi
-          // navigate('/exam/finish'); // Chuyển hướng đến trang kết quả
-        } catch (error) {
-          console.error('Error submitting exam:', error);
-        }
+        handleSubmit();
+      } else if (updatedTimeLeft === 60) {
+        setShowToast(true);
       }
     }, 1000);
 
@@ -91,10 +95,7 @@ const ExamPage = () => {
   }, [navigate, timeFinish]);
 
   const handleAnswerChange = (questionIndex, optionIndex) => {
-    const newSelectedAnswers = {
-      ...selectedAnswers,
-      [questionIndex]: optionIndex,
-    };
+    const newSelectedAnswers = { ...selectedAnswers, [questionIndex]: optionIndex };
     setSelectedAnswers(newSelectedAnswers);
     localStorage.setItem('selectedAnswers', JSON.stringify(newSelectedAnswers));
   };
@@ -107,15 +108,14 @@ const ExamPage = () => {
     const token = localStorage.getItem('accessToken');
     try {
       const response = await submitExam(token, exams._id, selectedAnswers);
-      if (response.data.success == false) {
+      if (response.data.success) {
+        localStorage.setItem("submitted",true)
+        navigate('/exam/finish');
+      } else {
         navigate('/exam/error');
       }
-      else {
-        navigate('/exam/finish');
-      }
-    }
-    catch (err) {
-      console.log(err)
+    } catch (err) {
+      console.log(err);
       navigate('/exam/error');
     }
     setShowModal(false);
@@ -188,7 +188,7 @@ const ExamPage = () => {
         NỘP BÀI ↓
       </button>
 
-      <Modal show={showModal} onHide={handleCloseModal} >
+      <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>Xác Nhận</Modal.Title>
         </Modal.Header>
@@ -203,7 +203,7 @@ const ExamPage = () => {
         </Modal.Footer>
       </Modal>
 
-      <ToastContainer position="top-end" className="p-3" itemType='info'>
+      <ToastContainer position="top-end" className="p-3">
         <Toast show={showToast} onClose={() => setShowToast(false)} delay={5000} autohide>
           <Toast.Body>Sắp Hết giờ! Bạn nên nộp bài ngay.</Toast.Body>
         </Toast>

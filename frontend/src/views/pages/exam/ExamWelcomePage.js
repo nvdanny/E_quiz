@@ -4,11 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
 import { doExam } from '../../../api/ExamApi';
 
+
 const ExamWelcomePage = () => {
   const [show, setShow] = useState(false);
   const navigate = useNavigate()
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = () => {setShow(true);}
   const handleLogout = () => {
     navigate('/logout');
   }
@@ -21,7 +22,12 @@ const ExamWelcomePage = () => {
         window.location.href = '/exam/error';
       }
       else {
-        window.location.href = '/exam';
+        if(response.data.msg=="Failed"){
+          window.location.href = '/exam/finish'
+        }
+        else{
+          window.location.href = '/exam';
+        }
       }
     }
     catch (error) {

@@ -12,6 +12,7 @@ const Login = React.lazy(() => import('./views/pages/Login'))
 const Logout = React.lazy(() => import('./views/pages/Logout'))
 const Register = React.lazy(() => import('./views/pages/Register'))
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
+const Error = React.lazy(() => import('./views/pages/Error'))
 const cld = new Cloudinary({
   cloud: {
     cloudName: 'dxoenxs1a'
@@ -35,8 +36,10 @@ function App() {
           <Route exact path="/logout" element={<Logout/>} />
           <Route path="/welcome" element={<ExamWelcomePage />} />
           <Route path="/exam/finish" element={<ExamFinish />} />
+          <Route path="/exam/error1" element={<Error />} />
           <Route path="/admin/*" name="Home" element={<DefaultLayout />} />
-          <Route path="*" element={<LandingPage />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="*" element={<Error />} />
         </Routes>
       </Suspense>
     </Router>

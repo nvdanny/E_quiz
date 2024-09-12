@@ -55,7 +55,7 @@ module.exports = {
         }
     },
 
-    getActiveExam: async () => {
+    getActiveExam: async (examId) => {
         try {
             var exams;
             exams = await Exam.find({active: true}).populate({path: 'questions', select: '-answer'});

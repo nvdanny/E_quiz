@@ -38,7 +38,7 @@ const ExamFinish = () => {
         <h3>Chúc mừng bạn đã hoàn thành bài thi của <strong>Vòng 1 - Test Online</strong></h3>
         <h4 className="text-center mt-3">CUỘC THI BẢN LĨNH NHÀ ĐẦU TƯ 2024.</h4>
         <div className="text-left mt-5">Kết quả của bạn sẽ được BTC cập nhật sớm nhất qua email của bạn.</div>
-        <p className="text-left">Hẹn gặp lại bạn ở VÒNG 2: Test sơ loại Cuộc thi Bản lĩnh nhà đầu tư 2024!</p>
+        <p className="text-left">Hẹn gặp lại bạn ở <strong>VÒNG 2: Test sơ loại Cuộc thi Bản lĩnh nhà đầu tư 2024!</strong></p>
         <h5 className="text-left">BẠN VUI LÒNG CHỌN CA THI VÒNG 2</h5>
 
         <Form>
