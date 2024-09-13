@@ -4,7 +4,7 @@ const Question = require('../models/Question');
 module.exports = {
     createQuestion: async (data, files) => {
         try {
-            data.options = JSON.parse(data.options)
+            // data.options = JSON.parse(data.options)
             const savedOptions = data.options.map((option, i) => {
                 let image = `options[${i+1}]`
                 if (files[image]) {
@@ -79,14 +79,22 @@ module.exports = {
 
     editQuestion: async (data, files) => {
         try {
-            const savedOptions = data.options.map((option, index) => {
+            // data.options = JSON.parse(data.options)
+            const savedOptions = data.options.map((option, i) => {
+                let image = `options[${i+1}]`
+                if (files[image]) {
+                    var path = files[image][0]?.path
+                }
                 return {
                     _id: new mongoose.Types.ObjectId(),
                     text: option.text,
-                    imageUrl: files[index + 1].path || option.imageUrl
+                    imageUrl: path || option.imageUrl
                 }
             });
             const savedAnswer = savedOptions[data.answer];
+            if (files['image']) {
+                var pathQuestion = files['image'][0]?.path
+            }
             const question = await Question.findByIdAndUpdate(data.id, {
                 description: data.description,
                 imageUrl: files[0].path,
