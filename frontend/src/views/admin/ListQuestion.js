@@ -74,7 +74,7 @@ const QuestionsList = ({ token }) => {
                     >
                       Câu {questionIndex + 1 + (currentPage - 1) * questionsPerPage}: {question.description}
                     </h5>
-                    {question.imageUrl && (
+                    {question.imageUrl && question.imageUrl !== "/0" && (
                       <div style={{ margin :"10px 15px", maxWidth:"300px" }}>
                         <CImage
                           src={question.imageUrl}
