@@ -1,19 +1,28 @@
 import  apiClient  from './ApiClient';
 
-export const createQuestion = (data, file, token) => {
-    const payload = {
-        description: data.description,
-        imageUrl: data.imageUrl,
-        options: data.options,
-        answer: data.answer,
-    };
+// export const createQuestion = (data, file, token) => {
+//     const payload = {
+//         description: data.description,
+//         imageUrl: data.imageUrl,
+//         options: data.options,
+//         answer: data.answer,
+//     };
+//     const headers = {
+//         Authorization: `Bearer ${token}`,
+//         'Content-Type': 'application/json',
+//     };
+//     return apiClient.post(`/api/question/`, payload, { headers });
+// };
+
+
+export const createQuestion = (formData, token) => {
+
     const headers = {
         Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
     };
-    return apiClient.post(`/api/question/`, payload, { headers });
+    return apiClient.post(`/api/question/create`, formData, { headers });
 };
-
 
 export const deleteQuestion = (questionId, token) => {
     const headers = {

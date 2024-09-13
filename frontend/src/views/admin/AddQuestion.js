@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom'; // Import useParams to get path variables
-import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import {
   CButton,
   CCard,
@@ -12,27 +11,25 @@ import {
   CRow,
   CCol,
   CFormTextarea,
-  CAlert
+  CAlert,
+  CImage
 } from '@coreui/react';
-import { createQuestion, getQuestionById ,updateQuestion} from '../../api/QuestionApi'; // Import your API functions
-import { Button, Popover, OverlayTrigger } from 'react-bootstrap';
-
-const CLOUDINARY_URL = process.env.REACT_APP_CLOUDINARY_URL;
-const CLOUDINARY_UPLOAD_PRESET = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
+import { createQuestion, getQuestionById, updateQuestion } from '../../api/QuestionApi';
+import { Popover, OverlayTrigger } from 'react-bootstrap';
 
 const AddQuestion = () => {
   const { questionId } = useParams();
   
   const [text, setText] = useState('');
   const [options, setOptions] = useState([
-    { text: '', isCorrect: false },
-    { text: '', isCorrect: false },
-    { text: '', isCorrect: false },
-    { text: '', isCorrect: false },
+    { text: '', isCorrect: false, image: null },
+    { text: '', isCorrect: false, image: null },
+    { text: '', isCorrect: false, image: null },
+    { text: '', isCorrect: false, image: null },
   ]);
-  const [image, setImage] = useState(null);
+  const [questionImage, setQuestionImage] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('accessToken'));
-  const [showAlert, setShowAlert] = useState(false); 
+  const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
 
   useEffect(() => {
@@ -47,24 +44,26 @@ const AddQuestion = () => {
         setShowAlert(false);
       }, 5000);
 
-      return () => clearTimeout(timer); 
+      return () => clearTimeout(timer);
     }
   }, [showAlert]);
+
   const fetchQuestionData = async (id) => {
     try {
       const response = await getQuestionById(id, token);
       const question = response.data.msg.question;
       setText(question.description);
-      setImage(question.imageUrl || null);
+      setQuestionImage(question.imageUrl || null);
 
       const updatedOptions = (question.options || [
-        { text: '', isCorrect: false },
-        { text: '', isCorrect: false },
-        { text: '', isCorrect: false },
-        { text: '', isCorrect: false },
+        { text: '', isCorrect: false, image: null },
+        { text: '', isCorrect: false, image: null },
+        { text: '', isCorrect: false, image: null },
+        { text: '', isCorrect: false, image: null },
       ]).map((option, index) => ({
         ...option,
-        isCorrect: option._id === question.answer._id
+        isCorrect: option._id === question.answer._id,
+        image: option.imageUrl || null
       }));
   
       setOptions(updatedOptions);
@@ -75,7 +74,7 @@ const AddQuestion = () => {
   };
 
   const handleAddOption = () => {
-    setOptions([...options, { text: '', isCorrect: false }]);
+    setOptions([...options, { text: '', isCorrect: false, image: null }]);
   };
 
   const handleOptionChange = (index, event) => {
@@ -105,19 +104,20 @@ const AddQuestion = () => {
     setOptions(options.filter((_, idx) => idx !== index));
   };
 
-  const handleImageChange = async (e) => {
+  const handleImageChange = (e, index = -1) => {
     const file = e.target.files[0];
     if (file) {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-      
-      try {
-        const response = await axios.post(CLOUDINARY_URL, formData);
-        setImage(response.data.secure_url);
-      } catch (err) {
-        console.error(err);
-      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (index === -1) {
+          setQuestionImage(reader.result);
+        } else {
+          const newOptions = [...options];
+          newOptions[index].image = reader.result;
+          setOptions(newOptions);
+        }
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -128,26 +128,26 @@ const AddQuestion = () => {
       return;
     }
     
-    // Chuyển đổi các tùy chọn thành định dạng mong muốn
-    const formattedOptions = options.map(option => ({
-      text: option.text,
-      isCorrect: option.isCorrect
-    }));
-    const correctOptionIndex = options.findIndex(option => option.isCorrect);
-  
-    const data = {
-      description: text,
-      imageUrl: image,
-      options: formattedOptions,
-      answer: correctOptionIndex
-    };
-  
+    const formData = new FormData();
+    formData.append('description', text);
+    if (questionImage) {
+      formData.append('image', dataURItoBlob(questionImage), 'question_image.jpg');
+    }
+    
+    options.forEach((option, index) => {
+      formData.append(`options[${index}][text]`, option.text);
+      formData.append(`options[${index}][isCorrect]`, option.isCorrect);
+      if (option.image) {
+        formData.append(`options[${index}]`, dataURItoBlob(option.image), `option_${index}_image.jpg`);
+      }
+    });
+
     try {
       let response;
       if (questionId) {
-        response = await updateQuestion(data, questionId,token);
+        response = await updateQuestion(formData, questionId, token);
       } else {
-        response = await createQuestion(data, image, token);
+        response = await createQuestion(formData, token);
       }
   
       if (response.status === 200) {
@@ -161,13 +161,13 @@ const AddQuestion = () => {
       if(!questionId){
         setText('');
         setOptions([
-          { text: '', isCorrect: false },
-          { text: '', isCorrect: false },
-          { text: '', isCorrect: false },
-          { text: '', isCorrect: false },
+          { text: '', isCorrect: false, image: null },
+          { text: '', isCorrect: false, image: null },
+          { text: '', isCorrect: false, image: null },
+          { text: '', isCorrect: false, image: null },
         ]);
-        setImage(null);
-        }
+        setQuestionImage(null);
+      }
     } catch (err) {
       console.error(err);
       setAlertMessage('Lỗi khi lưu câu hỏi');
@@ -192,7 +192,8 @@ const AddQuestion = () => {
         while ((answerMatch = answerRegex.exec(answersText)) !== null) {
           parsedOptions.push({
             text: answerMatch[1].trim(),
-            isCorrect: false
+            isCorrect: false,
+            image: null
           });
         }
   
@@ -203,6 +204,17 @@ const AddQuestion = () => {
         setShowAlert(true);
       }
     }
+  };
+
+  const dataURItoBlob = (dataURI) => {
+    const byteString = atob(dataURI.split(',')[1]);
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
   };
 
   const popover = (
@@ -249,25 +261,26 @@ const AddQuestion = () => {
                 onChange={(e) => setText(e.target.value)}
                 rows={4}
               />
-              {/* {image && (
+              {questionImage && (
                 <div className="mt-3">
-                  <img src={image} alt="" style={{ maxWidth: '100%', height: 'auto' }} />
+                  <CImage src={questionImage} alt="" style={{ maxWidth: '100%', height: 'auto' }} />
                 </div>
-              )} */}
+              )}
             </CCol>
-            <CCol sm="2">
-              {/* <CFormInput
-                type="file"
-                accept="image/*"
-                placeholder='Thêm ảnh'
-                onChange={handleImageChange}
-              /> */}
+            <CCol sm="3">
               <CButton color="primary" onClick={handlePasteInput}>
                 Import nhanh
               </CButton>
               <OverlayTrigger trigger="click" placement="right" overlay={popover}>
-                <CButton  color="info" style={{ marginLeft: '10px' }}>?</CButton>
+                <CButton color="info" style={{ marginLeft: '10px' }}>?</CButton>
               </OverlayTrigger>
+              <CFormInput
+                class="mt-4"
+                type="file"
+                accept="image/*"
+                placeholder='Thêm ảnh'
+                onChange={(e) => handleImageChange(e)}
+              />
             </CCol>
           </CRow>
           {options.map((option, index) => (
@@ -283,6 +296,11 @@ const AddQuestion = () => {
                   value={option.text}
                   onChange={(e) => handleOptionChange(index, e)}
                 />
+                {option.image && (
+                  <div className="mt-2">
+                    <CImage src={option.image} alt="" style={{ maxWidth: '100%', height: 'auto' }} />
+                  </div>
+                )}
               </CCol>
               <CCol sm="2" className="align-self-center">
                 <CFormCheck
@@ -291,6 +309,12 @@ const AddQuestion = () => {
                   name="isCorrect"
                   checked={option.isCorrect}
                   onChange={(e) => handleOptionChange(index, e)}
+                />
+                <CFormInput
+                  type="file"
+                  accept="image/*"
+                  placeholder='Thêm ảnh'
+                  onChange={(e) => handleImageChange(e, index)}
                 />
               </CCol>
               <CCol sm="2" className="align-self-center">

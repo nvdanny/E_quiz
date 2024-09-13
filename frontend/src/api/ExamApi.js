@@ -69,7 +69,7 @@ export const updateStatus = async (examId, newStatus, token) => {
 };
 
 export const doExam = async (token) => {
-    const headers = {
+    const headers = { 
         Authorization: `Bearer ${token}`,
     };
     return apiClient.get(`/api/submission/`, { headers });
