@@ -23,7 +23,11 @@ module.exports = {
           major: major,
           year: year,
           linkFb: linkFb,
-          studentId: studentId
+          studentId: studentId,
+          displayName: data.displayName,
+          region: data.region,
+          identityCard: data.identityCard
+
         })
         newUser = await User.create(newUser);
         const payload = { id: newUser._id, role: newUser.role};

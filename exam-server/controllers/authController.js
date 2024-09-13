@@ -28,6 +28,8 @@ module.exports = {
       if (response.error) {
         return res.status(400).json({ msg: response.error });
       }
+      const test = await mailService.sendMail(response.data.email, mailService.registerContent);
+      console.log(test)
       return res.status(200).json(response);
     }
     catch(err) {
