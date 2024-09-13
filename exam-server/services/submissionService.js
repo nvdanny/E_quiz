@@ -25,37 +25,17 @@ module.exports = {
             //         error: "you r doing another exam"
             //     }
             // }
-            // else {'
-
-            if (!foundUser) {
-                return {
-                    success: false,
-                    error: "User not found"
-                };
-            }
-
-            if(!foundUser.doingExam){
-                if (foundUser.startExam) {
-                    const currentTime = Date.now();
-                    const timeDifference = currentTime - foundUser.startExam;
-                    const twentyMinutesInMilliseconds = 20 * 60 * 1000;
-                
-                    if (timeDifference > 0 && timeDifference < twentyMinutesInMilliseconds) {
-                        foundUser.set({
-                            startExam: Date.now(),
-                        })
-                        await foundUser.save();
-                    } 
-                }
+            // else {
+                foundUser.set({
+                    doingExam: false,
+                    startExam: Date.now(),
+                })
+                await foundUser.save();
                 return {
                     success: true,
                     msg: "Oke"
                 }
-            }
-            return {
-                success: true,
-                msg: "Failed"
-            }
+            // }
         }
         catch(err) {
             console.log(err)
@@ -72,7 +52,7 @@ module.exports = {
             const foundUser = await User.findById(user.id);
             const submitedAnswer = data.answers;
             foundUser.set({
-                doingExam: true,
+                doingExam: false,
             })
             await foundUser.save();
             // if (foundSubmission) {
