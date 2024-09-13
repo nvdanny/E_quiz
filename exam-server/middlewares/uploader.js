@@ -9,8 +9,9 @@ cloudinary.config({
 });
 
 const storage = new CloudinaryStorage({
-    cloudinary,
+    cloudinary: cloudinary,
     allowedFormats: ["jpg", "png"],
+    transformation: [ {width: 500, height: 500, crop: 'limit'} ],
     params: {
       folder: "quiz_bank",
     },
