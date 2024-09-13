@@ -4,10 +4,10 @@ const Question = require('../models/Question');
 module.exports = {
     createQuestion: async (data, files) => {
         try {
-            // data.options = JSON.parse(data.options)
+            data.options = JSON.parse(data.options)
             const savedOptions = data.options.map((option, i) => {
                 let image = `options[${i+1}]`
-                if (files[image]) {
+                if (files && files[image]) {
                     var path = files[image][0]?.path
                 }
                 return {
@@ -17,7 +17,7 @@ module.exports = {
                 }
             });
             const savedAnswer = savedOptions[data.answer];
-            if (files['image']) {
+            if (files && files['image']) {
                 var pathQuestion = files['image'][0]?.path
             }
             const newQuestion = await Question.create({
@@ -79,7 +79,7 @@ module.exports = {
 
     editQuestion: async (data, files) => {
         try {
-            // data.options = JSON.parse(data.options)
+            data.options = JSON.parse(data.options)
             const savedOptions = data.options.map((option, i) => {
                 let image = `options[${i+1}]`
                 if (files[image]) {
@@ -97,7 +97,7 @@ module.exports = {
             }
             const question = await Question.findByIdAndUpdate(data.id, {
                 description: data.description,
-                imageUrl: files[0].path,
+                imageUrl: pathQuestion,
                 options: savedOptions,
                 answer: savedAnswer
             })

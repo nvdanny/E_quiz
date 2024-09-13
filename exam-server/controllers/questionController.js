@@ -22,8 +22,8 @@ module.exports = {
   editQuestion: async (req, res) => {
     try {
       const data = req.body;
-      const file = req.file;
-      const response = await questionService.editQuestion(data, file);
+      const files = req.files;
+      const response = await questionService.editQuestion(data, files);
       if (response.error) {
         res.status(400).json({ msg: 'Unable to edit question' });
       }

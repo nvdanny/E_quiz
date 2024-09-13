@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 import {
   CButton,
   CCard,
@@ -15,7 +16,7 @@ import {
   CImage
 } from '@coreui/react';
 import { createQuestion, getQuestionById, updateQuestion } from '../../api/QuestionApi';
-import { Popover, OverlayTrigger } from 'react-bootstrap';
+import { Button, Popover, OverlayTrigger } from 'react-bootstrap';
 
 const AddQuestion = () => {
   const { questionId } = useParams();
@@ -127,24 +128,35 @@ const AddQuestion = () => {
       setShowAlert(true);
       return;
     }
-    
+  
     const formData = new FormData();
     formData.append('description', text);
-    if (questionImage) {
+  
+    if (questionImage && questionImage.startsWith('data:')) {
       formData.append('image', dataURItoBlob(questionImage), 'question_image.jpg');
     }
-    
+  
+    const optionsData = options.map(option => ({
+      text: option.text,
+      isCorrect: option.isCorrect
+    }));
+    formData.append('options', JSON.stringify(optionsData));
+  
+    const correctAnswerIndex = options.findIndex(option => option.isCorrect);
+    if (correctAnswerIndex !== -1) {
+      formData.append('answer', correctAnswerIndex.toString());
+    }
+  
     options.forEach((option, index) => {
-      formData.append(`options[${index}][text]`, option.text);
-      formData.append(`options[${index}][isCorrect]`, option.isCorrect);
-      if (option.image) {
+      if (option.image && option.image.startsWith('data:')) {
         formData.append(`options[${index}]`, dataURItoBlob(option.image), `option_${index}_image.jpg`);
       }
     });
-
+  
     try {
       let response;
       if (questionId) {
+        formData.append('id', questionId);
         response = await updateQuestion(formData, questionId, token);
       } else {
         response = await createQuestion(formData, token);
@@ -158,7 +170,7 @@ const AddQuestion = () => {
         setShowAlert(true);
       }
   
-      if(!questionId){
+      if (!questionId) {
         setText('');
         setOptions([
           { text: '', isCorrect: false, image: null },
@@ -267,20 +279,19 @@ const AddQuestion = () => {
                 </div>
               )}
             </CCol>
-            <CCol sm="3">
+            <CCol sm="2">
+              <CFormInput
+                type="file"
+                accept="image/*"
+                placeholder='Thêm ảnh'
+                onChange={(e) => handleImageChange(e)}
+              />
               <CButton color="primary" onClick={handlePasteInput}>
                 Import nhanh
               </CButton>
               <OverlayTrigger trigger="click" placement="right" overlay={popover}>
                 <CButton color="info" style={{ marginLeft: '10px' }}>?</CButton>
               </OverlayTrigger>
-              <CFormInput
-                class="mt-4"
-                type="file"
-                accept="image/*"
-                placeholder='Thêm ảnh'
-                onChange={(e) => handleImageChange(e)}
-              />
             </CCol>
           </CRow>
           {options.map((option, index) => (

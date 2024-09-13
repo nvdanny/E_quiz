@@ -14,15 +14,14 @@ import  apiClient  from './ApiClient';
 //     return apiClient.post(`/api/question/`, payload, { headers });
 // };
 
-
-export const createQuestion = (formData, token) => {
-
+export const createQuestion = async (formData, token) => {
     const headers = {
         Authorization: `Bearer ${token}`,
-        'Content-Type': 'multipart/form-data',
     };
     return apiClient.post(`/api/question/create`, formData, { headers });
 };
+  
+
 
 export const deleteQuestion = (questionId, token) => {
     const headers = {
@@ -38,19 +37,11 @@ export const listQuestion = (token) => {
     return apiClient.get(`/api/question/list`, { headers });
 };
 
-export const updateQuestion = async (data, questionId, token) => {
-    const payload = {
-        id : questionId,
-        description: data.description,
-        imageUrl: data.imageUrl, // or `file.path` if you're handling file uploads separately
-        options: data.options,
-        answer: data.answer,
-    };
+export const updateQuestion = async (formData, questionId, token) => {
     const headers = {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
     };
-    return apiClient.put(`/api/question/${questionId}`, payload, { headers });
+    return apiClient.put(`/api/question/${questionId}`, formData, { headers });
 };
 
 

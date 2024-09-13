@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CCard, CCardBody, CCardHeader, CCol, CRow, CButton, CModal, CModalHeader, CModalBody, CModalFooter, CPagination, CFormCheck, CPaginationItem } from '@coreui/react';
 import { listQuestion, deleteQuestion } from '../../api/QuestionApi';
+import { CImage } from '@coreui/react';
 
 const QuestionsList = ({ token }) => {
   const [questions, setQuestions] = useState([]);
@@ -73,6 +74,15 @@ const QuestionsList = ({ token }) => {
                     >
                       Câu {questionIndex + 1 + (currentPage - 1) * questionsPerPage}: {question.description}
                     </h5>
+                    {question.imageUrl && (
+                      <div style={{ margin :"10px 15px", maxWidth:"300px" }}>
+                        <CImage
+                          src={question.imageUrl}
+                          alt="Question Image"
+                          style={{ maxWidth: '100%', height: 'auto' }}
+                        />
+                      </div>
+                    )}
 
                     {question.options.map((option, optionIndex) => (
                       <div key={option._id} style={{ marginLeft: "20px", marginBottom:"10px" }}>
@@ -83,6 +93,15 @@ const QuestionsList = ({ token }) => {
                           readOnly
                         />
                         <span style={{ marginLeft: "10px" }}>{getOptionLetter(optionIndex)}. {option.text}</span>
+                        {option.imageUrl && (
+                          <div style={{ margin :"10px 15px", maxWidth:"300px" }}>
+                            <CImage
+                              src={option.imageUrl}
+                              alt="Option Image"
+                              style={{ maxWidth: '100%', height: 'auto' }}
+                            />
+                          </div>
+                       )}
                       </div>
                     ))}
                   </div>
