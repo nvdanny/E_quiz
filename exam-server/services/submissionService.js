@@ -1,7 +1,6 @@
 const Submission = require("../models/Submission");
 const Exam = require("../models/Exam");
 const User = require("../models/User");
-const { startExam } = require("./examService");
 
 module.exports = {
     doExam : async (user) => {
@@ -45,13 +44,16 @@ module.exports = {
             const foundSubmission = await Submission.findOne({userId: user.id});
             const foundUser = await User.findById(user.id);
             const submitedAnswer = data.answers;
-            if (foundSubmission) {
+            if (foundUser.didExam && foundSubmission) {
                 return {
                     success: false,
                     error: "you already did this exam"
                 }
             }
             if (foundUser.startExam + exam.duration * 60000 > Date.now() + 300000) {
+                if (foundSubmission) {
+                    await Submission.deleteMany({userId: user.id});
+                }
                 let correctAnswer = 0;
                 for (let i = 0; i < questions.length; i++) {
                     if (submitedAnswer[i] != undefined || submitedAnswer[i] != null) {
@@ -92,5 +94,22 @@ module.exports = {
         }
     },
 
-    
+    getAllSubmission : async() => {
+        try {
+            const submission = await Submission.find().populate({path: 'userId'});
+            return {
+                success: true,
+                submission
+            }
+        }
+        catch(err) {
+            console.log(err)
+            return {
+                success: false,
+                msg: "Server error"
+            }
+        }
+    },
+
+
 }
