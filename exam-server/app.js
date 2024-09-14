@@ -18,9 +18,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: [
-      "https://exam-server-p8gl2dfz2-nguyendaniel1307s-projects.vercel.app/",
+      "https://blndt-sec-bavcom.vercel.app/",
       "http://localhost:3000",
-      "https://blndt-sec-bav.com"
+      "https://blndt-sec-bav.com",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
