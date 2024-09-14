@@ -27,7 +27,7 @@ app.use(
   })
 );
 
-app.use(cors());
+app.options("*", cors());
 
 const authRoutes = require("./routes/auth");
 const questionRoutes = require("./routes/questions");
