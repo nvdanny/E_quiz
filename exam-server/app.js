@@ -21,6 +21,7 @@ app.use(
       "https://blndt-sec-bavcom.vercel.app",
       "http://localhost:3000",
       "https://blndt-sec-bav.com",
+      "https://www.blndt-sec-bav.com",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
@@ -54,7 +55,7 @@ const options = {
     },
     servers: [
       {
-        url: "https://blndt-sec-bav.com",
+        url: "https://e-quiz-backend.vercel.app",
         description: "Live server",
       },
       {
