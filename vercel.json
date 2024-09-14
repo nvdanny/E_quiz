@@ -1,0 +1,26 @@
+{
+    "version": 2,
+    "name": "my-app",
+    "builds": [
+      {
+        "src": "exam-server/app.js",
+        "use": "@vercel/node"
+      },
+      {
+        "src": "frontend/package.json",
+        "use": "@vercel/static-build",
+        "config": { "distDir": "frontend/build" }
+      }
+    ],
+    "routes": [
+      {
+        "src": "/api/(.*)",
+        "dest": "/exam-server/app.js"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/frontend/$1"
+      }
+    ]
+  }
+  
