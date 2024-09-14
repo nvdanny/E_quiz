@@ -15,17 +15,19 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(
-  cors({
-    origin: [
-      "https://blndt-sec-bavcom.vercel.app/",
-      "http://localhost:3000",
-      "https://blndt-sec-bav.com",
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: [
+//       "https://blndt-sec-bavcom.vercel.app/",
+//       "http://localhost:3000",
+//       "https://blndt-sec-bav.com",
+//     ],
+//     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+//     credentials: true,
+//   })
+// );
+
+app.use(cors());
 
 const authRoutes = require("./routes/auth");
 const questionRoutes = require("./routes/questions");
