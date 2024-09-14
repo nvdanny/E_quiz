@@ -12,7 +12,7 @@ module.exports = {
       if (response.error) {
         return res.status(400).json({ msg: response.error });
       }
-      mailService.sendMail(response.data.email, mailService.registerContent);
+      // mailService.sendMail(response.data.email, mailService.registerContent);
       return res.status(200).json(response);
     }
     catch(err) {
@@ -26,7 +26,7 @@ module.exports = {
       if (response.error) {
         return res.status(400).json({ msg: response.error });
       }
-      mailService.sendMail(response.data.email, mailService.registerContent);
+      // mailService.sendMail(response.data.email, mailService.registerContent);
       return res.status(200).json(response);
     }
     catch(err) {
