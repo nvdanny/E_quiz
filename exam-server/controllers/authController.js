@@ -12,9 +12,7 @@ module.exports = {
       if (response.error) {
         return res.status(400).json({ msg: response.error });
       }
-      mailService.sendMail(response.data.email, mailService.registerContent).catch(err => {
-        console.log(err);
-      });
+      mailService.sendMail(response.data.email, mailService.registerContent);
       return res.status(200).json(response);
     }
     catch(err) {
@@ -28,11 +26,11 @@ module.exports = {
       if (response.error) {
         return res.status(400).json({ msg: response.error });
       }
-      const test = await mailService.sendMail(response.data.email, mailService.registerContent);
-      console.log(test)
+      mailService.sendMail(response.data.email, mailService.registerContent);
       return res.status(200).json(response);
     }
     catch(err) {
+      console.log(err)
       return res.status(500).json({ msg: "Server error" });
     }
   },
@@ -43,6 +41,7 @@ module.exports = {
       return res.status(200).json("Sign out successfully");
     }
     catch(err) {
+      console.log(err)
       return res.status(500).json({ msg: "Server error" });
     }
   },
