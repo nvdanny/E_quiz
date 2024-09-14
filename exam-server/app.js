@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: [
-      "https://blndt-sec-bavcom.vercel.app/",
+      "https://blndt-sec-bavcom.vercel.app",
       "http://localhost:3000",
       "https://blndt-sec-bav.com",
     ],
