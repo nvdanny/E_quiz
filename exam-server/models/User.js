@@ -37,6 +37,10 @@ const userSchema = new Schema({
     type: Schema.ObjectId, 
     ref: "Submission" 
   },
+  examShift: {
+    type: Number,
+    default: 1
+  }
   // createdAt: {
   //   type: Date,
   //   default: Date.now

@@ -50,4 +50,20 @@ module.exports = {
       res.status(500).json({ success: false, msg: "Server error" });
     }
   },
+
+  updateExamShift : async (req, res) => {
+    try {
+      const response = await submissionService.updateExamShift(req.user, req.body.shift);
+      if (response.success) {
+        res.status(200).json(response);
+      }
+      else {
+        res.status(400).json(response);
+      }
+    }
+    catch(err) {
+      console.log(err);
+      res.status(500).json({ success: false, msg: "Server error" });
+    }
+  }
 }
