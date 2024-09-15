@@ -89,7 +89,32 @@ module.exports = {
             console.log(err)
             return {
                 success: false,
-                error: "loi",
+                msg: "loi",
+            }
+        }
+    },
+
+    updateExamShift: async (user, shift) => {
+        try {
+            const foundUser = await User.findByIdAndUpdate(user.id, {examShift: shift});
+            if (foundUser) {
+                return {
+                    success: true,
+                    msg: "Up date exam shift successfully"
+                }
+            }
+            else {
+                return {
+                    success: false,
+                    msg: "error"
+                }
+            }
+        }
+        catch (err) {
+            console.log(err);
+            return {
+                success: false,
+                msg: "Server Error"
             }
         }
     },
