@@ -6,27 +6,32 @@ module.exports = {
     doExam : async (user) => {
         try {
             const foundUser = await User.findById(user.id);
-            if (foundUser.didExam) {
-                const currentTime = Date.now();
-                const timeDifference = currentTime - foundUser.startExam;
-                const twentyMinutesInMilliseconds = 20 * 60 * 1000;
-                if (timeDifference <= 0 || timeDifference >= twentyMinutesInMilliseconds) {
+            const currentTime = Date.now();
+            const timeDifference = currentTime - foundUser.startExam;
+            const twentyMinutesInMilliseconds = 20 * 60 * 1000;
+            if (timeDifference <= 0 || timeDifference >= twentyMinutesInMilliseconds) {
+                if (foundUser.didExam) {
                     return {
                         success: true,
                         msg: "Failed"
                     }
                 }
+                else {
+                    foundUser.set({
+                        startExam: Date.now(),
+                    })
+                    await foundUser.save();
+                    return {
+                        success: true,
+                        msg: "Start doing test"
+                    }
+                }
             }
             else {
-                foundUser.set({
-                    startExam: Date.now(),
-                    didExam: true,
-                })
-                await foundUser.save();
-            }
-            return {
-                success: true,
-                msg: "Oke"
+                return {
+                    success: true,
+                    msg: "Continue doing test"
+                }
             }
         }
         catch(err) {
@@ -50,6 +55,10 @@ module.exports = {
                     error: "Bạn đã hoàn thành bài thi rồi!"
                 }
             }
+            foundUser.set({
+                didExam: true,
+            })
+            await foundUser.save();
             if (foundUser.startExam + exam.duration * 60000  + 300000> Date.now()) {
                 if (foundSubmission) {
                     await Submission.deleteMany({userId: user.id});
