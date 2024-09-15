@@ -34,6 +34,7 @@ const authRoutes = require("./routes/auth");
 const questionRoutes = require("./routes/questions");
 const examRoutes = require("./routes/exams");
 const submissionRoutes = require("./routes/submission");
+const userRoutes = require("./routes/user");
 
 mongoose.connect(config.mongoURI);
 const connection = mongoose.connection;
@@ -45,6 +46,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/question", questionRoutes);
 app.use("/api/exam", examRoutes);
 app.use("/api/submission", submissionRoutes);
+app.use("/api/user", userRoutes);
 
 const options = {
   definition: {

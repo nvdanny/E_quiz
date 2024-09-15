@@ -13,7 +13,19 @@ const userSchema = new Schema({
   studentId: {type: String, required: false},
   linkFb: {type: String, required: true},
   role: { type: String, enum: ['user', 'admin'], default: 'user' },
-  doingExam: {
+  displayName: {
+    type: String, 
+    required: false,
+  },
+  region: {
+    type: String,
+    required: false,
+  },
+  identityCard: {
+    type: String,
+    required: false,
+  },
+  didExam: {
     type: Boolean,
     default: false,
   },

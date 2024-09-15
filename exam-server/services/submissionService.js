@@ -1,46 +1,39 @@
 const Submission = require("../models/Submission");
 const Exam = require("../models/Exam");
 const User = require("../models/User");
-const { startExam } = require("./examService");
 
 module.exports = {
     doExam : async (user) => {
         try {
-            // const exam = await Exam.findById(data.id);
-            // const foundSubmission = await Submission.findOne({examId: exam._id, userId: user.id});
             const foundUser = await User.findById(user.id);
-            // if (!exam.active) {
-            //     return {
-            //         error: "you can't do it for now"
-            //     }
-            // }
-            // else if (foundSubmission) {
-            //     return {
-            //         error: "you already did this exam"
-            //     }
-            // }
-            // if (foundUser.doingExam == true) {
-            //     return {
-            //         success: true,
-            //         error: "you r doing another exam"
-            //     }
-            // }
-            // else {
+            if (foundUser.didExam) {
+                const currentTime = Date.now();
+                const timeDifference = currentTime - foundUser.startExam;
+                const twentyMinutesInMilliseconds = 20 * 60 * 1000;
+                if (timeDifference <= 0 || timeDifference >= twentyMinutesInMilliseconds) {
+                    return {
+                        success: false,
+                        msg: "You already did this test"
+                    }
+                }
+            }
+            else {
                 foundUser.set({
-                    doingExam: false,
                     startExam: Date.now(),
+                    didExam: true,
                 })
                 await foundUser.save();
-                return {
-                    success: true,
-                    msg: "Oke"
-                }
-            // }
+            }
+            return {
+                success: true,
+                msg: "Oke"
+            }
         }
         catch(err) {
             console.log(err)
             return {
-                error: err
+                success: false,
+                msg: "Server Error"
             }
         }
     },
@@ -48,20 +41,19 @@ module.exports = {
         try {
             const exam = await Exam.findById(data.id).populate({path: 'questions'});
             const questions = exam.questions;
-            const foundSubmission = await Submission.findOne({examId: data.id, userId: user.id});
+            const foundSubmission = await Submission.findOne({userId: user.id});
             const foundUser = await User.findById(user.id);
             const submitedAnswer = data.answers;
-            foundUser.set({
-                doingExam: false,
-            })
-            await foundUser.save();
-            // if (foundSubmission) {
-            //     return {
-            //         success: false,
-            //         error: "you already did this exam"
-            //     }
-            // }
+            if (foundUser.didExam && foundSubmission) {
+                return {
+                    success: false,
+                    error: "you already did this exam"
+                }
+            }
             if (foundUser.startExam + exam.duration * 60000 > Date.now() + 300000) {
+                if (foundSubmission) {
+                    await Submission.deleteMany({userId: user.id});
+                }
                 let correctAnswer = 0;
                 for (let i = 0; i < questions.length; i++) {
                     if (submitedAnswer[i] != undefined || submitedAnswer[i] != null) {
@@ -89,7 +81,7 @@ module.exports = {
             else {
                 return {
                     success: false,
-                    error: 'Time out'
+                    msg: 'Time out'
                 }
             }
         }
@@ -100,5 +92,24 @@ module.exports = {
                 error: "loi",
             }
         }
-    }
+    },
+
+    getAllSubmission : async() => {
+        try {
+            const submission = await Submission.find().populate({path: 'userId'});
+            return {
+                success: true,
+                submission
+            }
+        }
+        catch(err) {
+            console.log(err)
+            return {
+                success: false,
+                msg: "Server error"
+            }
+        }
+    },
+
+
 }
