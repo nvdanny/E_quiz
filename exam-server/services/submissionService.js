@@ -50,7 +50,7 @@ module.exports = {
                     error: "you already did this exam"
                 }
             }
-            if (foundUser.startExam + exam.duration * 60000 > Date.now() + 300000) {
+            if (foundUser.startExam + exam.duration * 60000 + 300000 > Date.now()) {
                 if (foundSubmission) {
                     await Submission.deleteMany({userId: user.id});
                 }
