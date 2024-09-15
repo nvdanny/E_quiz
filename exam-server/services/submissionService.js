@@ -46,22 +46,25 @@ module.exports = {
     },
     submitExam : async (data, user) => {
         try {
+            const foundSubmission = await Submission.findOne({userId: user._id});
+            const foundUser = await User.findById(user._id);
+            if (foundSubmission || (foundUser && foundUser.doingExam)) {
+                return {
+                    success: false,
+                    error: "Bạn đã hoàn thành bài thi rồi!"
+                }
+            }
             const exam = await Exam.findById(data.id).populate({path: 'questions'});
             const questions = exam.questions;
-            const foundSubmission = await Submission.findOne({examId: data.id, userId: user.id});
-            const foundUser = await User.findById(user.id);
+            console.error(foundUser)
             const submitedAnswer = data.answers;
+            
             foundUser.set({
-                doingExam: false,
+                doingExam: true,
             })
             await foundUser.save();
-            // if (foundSubmission) {
-            //     return {
-            //         success: false,
-            //         error: "you already did this exam"
-            //     }
-            // }
-            if (foundUser.startExam + exam.duration * 60000 > Date.now() + 300000) {
+
+            if (foundUser.startExam + exam.duration * 60000  + 300000> Date.now()) {
                 let correctAnswer = 0;
                 for (let i = 0; i < questions.length; i++) {
                     if (submitedAnswer[i] != undefined || submitedAnswer[i] != null) {
@@ -69,7 +72,10 @@ module.exports = {
                             correctAnswer++;
                         }
                     }
-                }
+                } foundUser.set({
+                    doingExam: true,
+                })
+                await foundUser.save();
                 const score = (correctAnswer / exam.questions.length) * 10;
                 const formattedAnswers = Object.keys(submitedAnswer).map(questionIndex => ({
                     questionId: questions[questionIndex]._id,
@@ -77,19 +83,26 @@ module.exports = {
                   }));
                 await Submission.create({
                     examId: data.id,
-                    userId: user.id,
+                    userId: user._id,
                     answer: formattedAnswers,
                     score: score,
                 })
+
                 return {
                     success: true,
                     score
                 }
             }
             else {
+                await Submission.create({
+                    examId: data.id,
+                    userId: user._id,
+                    answer: formattedAnswers,
+                    score: 0,
+                })
                 return {
                     success: false,
-                    error: 'Time out'
+                    error: 'Đã quá giờ nộp bài!'
                 }
             }
         }
@@ -97,7 +110,7 @@ module.exports = {
             console.log(err)
             return {
                 success: false,
-                error: "loi",
+                error: "Lỗi hệ thống",
             }
         }
     }

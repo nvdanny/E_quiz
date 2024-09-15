@@ -5,7 +5,7 @@ const config = require('../config');
 module.exports = {
     signUp: async (data) => {
       try {
-        const {username, password, email, phoneNumber, birthday, university, major, year, studentId, linkFb} = data;
+        const {username, password, email, phoneNumber, birthday, university, major, year, studentId, linkFb, region} = data;
         const user = await User.findOne({ $or: [{ email: email }, { phoneNumber: phoneNumber }]});
         if (user) {
           return {
@@ -23,7 +23,8 @@ module.exports = {
           major: major,
           year: year,
           linkFb: linkFb,
-          studentId: studentId
+          studentId: studentId,
+          region: region
         })
         newUser = await User.create(newUser);
         const payload = { id: newUser._id, role: newUser.role};

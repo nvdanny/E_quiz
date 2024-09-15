@@ -155,3 +155,9 @@ html, body, #root {
   font-size: 16px !important;
   font-weight: normal;
 }
+
+
+.examFinishPage {
+  background: url('https://ba-exam.s3.ap-southeast-1.amazonaws.com/images/blndt-2024-min.png') no-repeat;
+  background-size: cover;
+}

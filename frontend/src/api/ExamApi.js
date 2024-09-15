@@ -82,10 +82,11 @@ export const getActiveExam = async (token) => {
     return apiClient.get(`/api/exam/`, { headers });
 }
 
-export const submitExam = async (token, examId, answers) => {
+export const submitExam = async (token, examId, answers, user) => {
     const payload = {
         id: examId,
         answers: answers,
+        user : user,
     };
     const headers = {
         Authorization: `Bearer ${token}`,

@@ -21,8 +21,9 @@ module.exports = {
 
   submitExam : async (req, res) => {
     try {
+      console.error(req.body)
       const data = req.body;
-      const user = req.user;
+      const user = req.body.user;
       const response = await submissionService.submitExam(data, user);
       if (response.error) {
         res.status(400).json(response)

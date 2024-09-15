@@ -1,42 +1,67 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import './ExamPage.css';
 import { Modal, Button, Toast, ToastContainer } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { getActiveExam, submitExam, getExamById } from '../../../api/ExamApi';
 
 const ExamPage = () => {
-  
   const navigate = useNavigate();
 
-  const [exams, setExams] = useState(null);
-  const [questions, setQuestions] = useState([]);
+  const [exam, setExam] = useState(null);
   const [selectedAnswers, setSelectedAnswers] = useState({});
-  const [timeFinish, setTimeFinish] = useState(() => {
-    const savedTimeFinish = localStorage.getItem('timeFinish');
-    return savedTimeFinish ? parseInt(savedTimeFinish) : null;
-  });
-  const [timeLeft, setTimeLeft] = useState(() => {
-    const savedTimeFinish = localStorage.getItem('timeFinish');
-    if (savedTimeFinish) {
-      return Math.max(parseInt(savedTimeFinish) - Math.floor(Date.now() / 1000), 0);
-    }
-    return 0;
-  });
+  const [timeFinish, setTimeFinish] = useState(null);
+  const [timeLeft, setTimeLeft] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleConfirmSubmit = useCallback(async () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
+    const token = localStorage.getItem('accessToken');
+    const examId = localStorage.getItem('examId');
+    const user = JSON.parse(localStorage.getItem('userInfo'));
+    try {
+      if (examId) {
+        const response = await submitExam(token, examId, selectedAnswers, user);
+        if (response.data.success) {
+          localStorage.removeItem('timeFinish');
+          localStorage.removeItem('selectedAnswers');
+          localStorage.removeItem('examId');
+          localStorage.setItem("submitted", "true");
+          navigate('/exam/finish');
+        } else {
+          throw new Error('Submission failed');
+        }
+      }
+    } catch (err) {
+      console.error(err);
+      if (err.response?.data?.success == false) {
+        alert(err.response.data.error);
+        navigate('/exam/finish');
+      } else {
+        navigate('/exam/error', { state: { error: err.message } });
+      }
+    } finally {
+      setIsSubmitting(false);
+      setShowModal(false);
+    }
+  }, [navigate, selectedAnswers, isSubmitting]);
 
   useEffect(() => {
     if (!localStorage.getItem('accessToken')) {
       navigate('/login');
       return;
     }
+
     const submitted = localStorage.getItem('submitted');
-    if (!submitted || submitted === "true") {
+    if (submitted === "true") {
       navigate('/exam/finish');
       return;
     }
 
-    const fetchExams = async () => {
+    const fetchExam = async () => {
       try {
         const token = localStorage.getItem('accessToken');
         const examId = localStorage.getItem('examId');
@@ -51,49 +76,51 @@ const ExamPage = () => {
         }
 
         if (examData) {
-          setExams(examData);
-          setQuestions(examData.questions);
+          setExam(examData);
           localStorage.setItem("examId", examData._id);
 
-          if (!timeFinish) {
+          const savedTimeFinish = localStorage.getItem('timeFinish');
+          if (!savedTimeFinish) {
             const currentTime = Math.floor(Date.now() / 1000);
             const finishTime = currentTime + examData.duration * 60;
             setTimeFinish(finishTime);
-            localStorage.setItem('timeFinish', finishTime);
-            setTimeLeft(finishTime - currentTime);
+            localStorage.setItem('timeFinish', finishTime.toString());
+          } else {
+            setTimeFinish(parseInt(savedTimeFinish));
           }
         } else {
-          navigate('/exam/error1');
+          navigate('/exam/error', { state: { error: 'No active exam found' } });
         }
       } catch (error) {
-        console.error('Error fetching exams:', error);
-        navigate('/exam/error');
+        console.error('Error fetching exam:', error);
+        navigate('/exam/error', { state: { error: error.message } });
       }
     };
 
-    fetchExams();
+    fetchExam();
 
     const savedAnswers = JSON.parse(localStorage.getItem('selectedAnswers') || '{}');
     setSelectedAnswers(savedAnswers);
+  }, [navigate]);
 
-    const timerId = setInterval(async () => {
+  useEffect(() => {
+    if (!timeFinish) return;
+
+    const timerId = setInterval(() => {
       const currentTime = Math.floor(Date.now() / 1000);
-      const updatedTimeLeft = timeFinish ? Math.max(timeFinish - currentTime, 0) : 0;
+      const updatedTimeLeft = Math.max(timeFinish - currentTime, 0);
       setTimeLeft(updatedTimeLeft);
 
       if (updatedTimeLeft <= 0) {
         clearInterval(timerId);
-        await handleConfirmSubmit();
-        // setShowToast(true);
-        // handleSubmit();
+        handleConfirmSubmit();
       } else if (updatedTimeLeft === 60) {
         setShowToast(true);
       }
     }, 1000);
 
     return () => clearInterval(timerId);
-  }, [navigate, timeFinish]);
-
+  }, [timeFinish, handleConfirmSubmit]);
 
   const handleAnswerChange = (questionIndex, optionIndex) => {
     const newSelectedAnswers = { ...selectedAnswers, [questionIndex]: optionIndex };
@@ -105,60 +132,35 @@ const ExamPage = () => {
     setShowModal(true);
   };
 
-  const handleConfirmSubmit = async () => {
-    const token = localStorage.getItem('accessToken');
-    const examId = localStorage.getItem('examId');
-    try {
-      console.log(exams)
-      if(examId!=null){
-        const response = await submitExam(token, examId, selectedAnswers);
-        if (response.data.success) {
-          localStorage.setItem("submitted",true)
-          navigate('/exam/finish');
-        } else {
-          navigate('/exam/error');
-      }
-      }
-    } catch (err) {
-      console.log(err);
-      if(err.response.data.msg == "Time out"){
-        alert("Đã hết giờ nộp bài")
-        navigate('/exam/finish');
-      }
-      navigate('/exam/error');
-    }
-    setShowModal(false);
-  };
-
   const handleCloseModal = () => setShowModal(false);
 
   const renderQuestions = () => {
-    return questions.map((q, index) => (
-      <div key={index} className="question">
+    return exam?.questions.map((q, index) => (
+      <div key={q._id} className="question">
         <h5>Câu {index + 1}: {q.description}</h5>
   
-        {q.imageUrl && q.imageUrl!== "/0" && (
+        {q.imageUrl && q.imageUrl !== "/0" && (
           <div className="question-image">
             <img src={q.imageUrl} alt={`Hình ảnh cho câu hỏi ${index + 1}`} />
           </div>
         )}
   
         {q.options.map((option, i) => (
-          <div key={i} className="option">
+          <div key={option._id} className="option">
             <label>
-              <input
+              <div><input
                 type="radio"
                 name={`q${index}`}
                 value={option._id}
                 checked={selectedAnswers[index] === i}
                 onChange={() => handleAnswerChange(index, i)}
-              />
-              {String.fromCharCode(65 + i)}: {option.text}
+              /></div>
+              {option.text}
             </label>
   
             {option.imageUrl && (
               <div className="option-image">
-                <img src={option.imageUrl} alt={`Hình ảnh cho tùy chọn ${String.fromCharCode(65 + i)}`} />
+                <img src={option.imageUrl} alt={`Hình ảnh cho tùy chọn`} />
               </div>
             )}
           </div>
@@ -167,13 +169,22 @@ const ExamPage = () => {
       </div>
     ));
   };
+
   const scrollToQuestion = (index) => {
-    document.querySelectorAll('.question')[index].scrollIntoView({ behavior: 'smooth' });
+    document.querySelectorAll('.question')[index]?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const renderQuestionNumbers = () => {
-    return questions.map((_, index) => (
-      <div key={index} className={`question-number ${selectedAnswers[index] !== undefined ? 'answered' : ''}`} onClick={() => scrollToQuestion(index)}>
+    return exam?.questions.map((q, index) => (
+      <div 
+        key={q._id} 
+        className={`question-number ${selectedAnswers[index] !== undefined ? 'answered' : ''}`} 
+        onClick={() => scrollToQuestion(index)}
+        tabIndex={0}
+        onKeyPress={(e) => e.key === 'Enter' && scrollToQuestion(index)}
+        role="button"
+        aria-label={`Go to question ${index + 1}`}
+      >
         {index + 1}
       </div>
     ));
@@ -184,7 +195,7 @@ const ExamPage = () => {
       <div className="row">
         <div id="questions" className="col-12 col-lg-8">
           <div id="container">
-            {exams && <h1>{exams.description}</h1>}
+            {exam && <h1>{exam.description}</h1>}
             <div id="question-container">
               {renderQuestions()}
             </div>
