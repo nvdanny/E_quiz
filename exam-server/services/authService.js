@@ -31,7 +31,7 @@ module.exports = {
         })
         newUser = await User.create(newUser);
         const payload = { id: newUser._id, role: newUser.role};
-        const token = jwt.sign(payload, config.secretOrKey, { expiresIn: '6h' });
+        const token = jwt.sign(payload, config.secretOrKey, { expiresIn: '2h' });
         return {
           accessToken: token,
           data: newUser,
@@ -59,7 +59,7 @@ module.exports = {
           }
         }
         const payload = { id: user._id, role: user.role };
-        const accessToken = jwt.sign(payload, config.secretOrKey, { expiresIn: '24h' });
+        const accessToken = jwt.sign(payload, config.secretOrKey, { expiresIn: '2h' });
         const userObj = user.toObject();
         delete userObj.password;
         return {
