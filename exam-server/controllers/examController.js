@@ -66,6 +66,7 @@ module.exports = {
     try {
       const response = await examService.getExamById(req.params.examId, req.user);
       if (response.error) {
+        console.log(response.error)
         res.status(400).json({ msg: 'Error' });
       }
       else {

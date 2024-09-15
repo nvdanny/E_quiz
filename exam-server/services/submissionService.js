@@ -62,7 +62,7 @@ module.exports = {
                         }
                     }
                 }
-                const score = (correctAnswer / exam.questions.length) * 10;
+                const score = correctAnswer;
                 const formattedAnswers = Object.keys(submitedAnswer).map(questionIndex => ({
                     questionId: questions[questionIndex]._id,
                     optionId: questions[questionIndex].options[submitedAnswer[questionIndex]]
@@ -83,7 +83,6 @@ module.exports = {
                 await Submission.create({
                     examId: data.id,
                     userId: user.id,
-                    answer: formattedAnswers,
                     score: 0,
                 })
                 return {
