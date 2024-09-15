@@ -126,7 +126,8 @@ const RegisterModal = ({ visible, toggle }) => {
         formData.major,
         formData.year,
         formData.studentId,
-        formData.linkFb
+        formData.linkFb,
+        formData.region
       );
       if (response.status === 200 && response.data.accessToken != null) {
         const { data, accessToken } = response.data;
@@ -192,18 +193,6 @@ const RegisterModal = ({ visible, toggle }) => {
         <form id="signUpForm" onSubmit={handleSubmit}>
           <div className="form-row">
             <div className="form-group col-md-6">
-              <label htmlFor="username">Tên đăng nhập</label>
-              <input
-                type="text"
-                className="form-control"
-                id="username"
-                placeholder="Tên đăng nhập"
-                value={formData.username}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="form-group col-md-6">
               <label htmlFor="email">Email</label>
               <input
                 type="email"
@@ -211,6 +200,18 @@ const RegisterModal = ({ visible, toggle }) => {
                 id="email"
                 placeholder="Email"
                 value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-group col-md-6">
+              <label htmlFor="displayName">Họ và tên</label>
+              <input
+                type="text"
+                className="form-control"
+                id="displayName"
+                placeholder="Họ và tên"
+                value={formData.displayName}
                 onChange={handleChange}
                 required
               />
@@ -241,20 +242,9 @@ const RegisterModal = ({ visible, toggle }) => {
                 required
               />
             </div>
+           
           </div>
           <div className="form-row">
-            <div className="form-group col-md-6">
-              <label htmlFor="displayName">Họ và tên</label>
-              <input
-                type="text"
-                className="form-control"
-                id="displayName"
-                placeholder="Họ và tên"
-                value={formData.displayName}
-                onChange={handleChange}
-                required
-              />
-            </div>
             <div className="form-group col-md-6">
               <label htmlFor="phoneNumber">Số điện thoại</label>
               <input
@@ -267,8 +257,6 @@ const RegisterModal = ({ visible, toggle }) => {
                 required
               />
             </div>
-          </div>
-          <div className="form-row">
             <div className="form-group col-md-6">
               <label htmlFor="birthday">Ngày sinh</label>
               <input
@@ -280,20 +268,24 @@ const RegisterModal = ({ visible, toggle }) => {
                 required
               />
             </div>
+          </div>
+          <div className="form-row">
             <div className="form-group col-md-6">
               <label htmlFor="region">Khu vực</label>
-              <input
-                type="text"
+              <select
                 className="form-control"
                 id="region"
-                placeholder="Khu vực"
                 value={formData.region}
                 onChange={handleChange}
                 required
-              />
+              >
+                <option value="">Chọn khu vực...</option>
+                <option value="Miền Bắc">Miền Bắc</option>
+                <option value="Miền Trung">Miền Trung</option>
+                <option value="Miền Nam">Miền Nam</option>
+                <option value="other">Khác</option>
+              </select>
             </div>
-          </div>
-          <div className="form-row">
             <div className="form-group col-md-6">
               <label htmlFor="identityCard">Căn cước công dân</label>
               <input
@@ -306,6 +298,8 @@ const RegisterModal = ({ visible, toggle }) => {
                 required
               />
             </div>
+          </div>
+          <div className="form-row">
             <div className="form-group col-md-6">
               <label htmlFor="university">Bạn là sinh viên trường nào?</label>
               <select
@@ -331,8 +325,7 @@ const RegisterModal = ({ visible, toggle }) => {
                 <option value="other">Trường khác</option>
               </select>
             </div>
-            {selectedUniversity === 'other' && (
-            <div className="form-group col-md-6">
+              <div className="form-group col-md-6">
               <label htmlFor="otherUniversity">Tên trường khác</label>
               <input
                 type="text"
@@ -341,10 +334,9 @@ const RegisterModal = ({ visible, toggle }) => {
                 placeholder="Điền tên trường"
                 value={formData.otherUniversity}
                 onChange={handleChange}
-                required
+                required={selectedUniversity === 'other'}
               />
             </div>
-          )}
           </div>
           <div className="form-row">
             <div className="form-group col-md-6">

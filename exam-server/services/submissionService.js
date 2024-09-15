@@ -12,8 +12,8 @@ module.exports = {
                 const twentyMinutesInMilliseconds = 20 * 60 * 1000;
                 if (timeDifference <= 0 || timeDifference >= twentyMinutesInMilliseconds) {
                     return {
-                        success: false,
-                        msg: "You already did this test"
+                        success: true,
+                        msg: "Failed"
                     }
                 }
             }
@@ -47,10 +47,10 @@ module.exports = {
             if (foundUser.didExam && foundSubmission) {
                 return {
                     success: false,
-                    error: "you already did this exam"
+                    error: "Bạn đã hoàn thành bài thi rồi!"
                 }
             }
-            if (foundUser.startExam + exam.duration * 60000 > Date.now() + 300000) {
+            if (foundUser.startExam + exam.duration * 60000  + 300000> Date.now()) {
                 if (foundSubmission) {
                     await Submission.deleteMany({userId: user.id});
                 }
@@ -73,15 +73,22 @@ module.exports = {
                     answer: formattedAnswers,
                     score: score,
                 })
+
                 return {
                     success: true,
                     score
                 }
             }
             else {
+                await Submission.create({
+                    examId: data.id,
+                    userId: user.id,
+                    answer: formattedAnswers,
+                    score: 0,
+                })
                 return {
                     success: false,
-                    msg: 'Time out'
+                    error: 'Đã quá giờ nộp bài!'
                 }
             }
         }
@@ -89,7 +96,7 @@ module.exports = {
             console.log(err)
             return {
                 success: false,
-                msg: "loi",
+                error: "Lỗi hệ thống",
             }
         }
     },

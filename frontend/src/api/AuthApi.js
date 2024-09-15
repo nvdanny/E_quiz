@@ -2,10 +2,10 @@
 import apiClient from './ApiClient';
 
 
-export const signUp = (username, email, password, displayName, phoneNumber, birthday, university, major, year, studentId, linkFb) => {
+export const signUp = (username, email, password, displayName, phoneNumber, birthday, university, major, year, studentId, linkFb, region) => {
 
     const payload = {
-        username: username,
+        username: username?username!=''?username:" ":" ",
         email: email,
         password: password,
         displayName: displayName,
@@ -15,7 +15,8 @@ export const signUp = (username, email, password, displayName, phoneNumber, birt
         major: major,
         year: year,
         studentId: studentId,
-        linkFb: linkFb
+        linkFb: linkFb,
+        region: region
     };
     return apiClient.post(`/api/auth/sign-up`, payload);
 };

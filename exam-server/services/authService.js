@@ -5,7 +5,7 @@ const config = require('../config');
 module.exports = {
     signUp: async (data) => {
       try {
-        const {username, password, email, phoneNumber, birthday, university, major, year, studentId, linkFb} = data;
+        const {username, password, email, phoneNumber, birthday, university, major, year, studentId, linkFb, region} = data;
         const user = await User.findOne({ $or: [{ email: email }, { phoneNumber: phoneNumber }]});
         if (user) {
           return {
@@ -25,7 +25,7 @@ module.exports = {
           linkFb: linkFb,
           studentId: studentId,
           displayName: data.displayName,
-          region: data.region,
+          region: region,
           identityCard: data.identityCard
 
         })
