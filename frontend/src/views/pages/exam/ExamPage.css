@@ -199,6 +199,7 @@ input[type="radio"]:checked {
     align-items: center;
     margin-bottom: 10px;
     cursor: pointer;
+    font-size: 16px;
 }
 
 /* Tăng khoảng cách giữa radio và text */
@@ -212,4 +213,16 @@ input[type="radio"]:checked {
 
 .question label {
 user-select: none; /* Vô hiệu hóa việc chọn văn bản cho các nhãn */
+}
+
+.question-image , .option-image{
+    margin: 0px 10px 20px 10px;
+}
+
+
+.question-image img,
+.option-image img {
+  max-height: 400px;
+  max-width: 100%;
+  height: auto;    
 }

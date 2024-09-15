@@ -164,7 +164,12 @@ const AddQuestion = () => {
   
       if (response.status === 200) {
         setAlertMessage(questionId ? 'Cập nhật câu hỏi thành công!' : 'Thêm câu hỏi mới thành công!');
-        setShowAlert(true);
+        if(questionId){
+          alert('Cập nhật câu hỏi thành công!')
+        }
+        {
+          setShowAlert(true);
+        }
       } else {
         setAlertMessage('Đầu vào không hợp lệ');
         setShowAlert(true);
@@ -279,19 +284,20 @@ const AddQuestion = () => {
                 </div>
               )}
             </CCol>
-            <CCol sm="2">
-              <CFormInput
-                type="file"
-                accept="image/*"
-                placeholder='Thêm ảnh'
-                onChange={(e) => handleImageChange(e)}
-              />
+            <CCol sm="3">
               <CButton color="primary" onClick={handlePasteInput}>
                 Import nhanh
               </CButton>
               <OverlayTrigger trigger="click" placement="right" overlay={popover}>
                 <CButton color="info" style={{ marginLeft: '10px' }}>?</CButton>
               </OverlayTrigger>
+              <CFormInput
+                className='mt-3'
+                type="file"
+                accept="image/*"
+                placeholder='Thêm ảnh'
+                onChange={(e) => handleImageChange(e)}
+              />
             </CCol>
           </CRow>
           {options.map((option, index) => (
