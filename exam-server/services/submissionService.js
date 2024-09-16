@@ -59,7 +59,7 @@ module.exports = {
                 doingExam: true,
             })
             await foundUser.save();
-            if (foundUser.startExam + exam.duration * 60000  + 300000> Date.now()) {
+            if (foundUser.startExam + exam.duration * 60000  + 600000> Date.now()) {
                 if (foundSubmission) {
                     await Submission.deleteMany({userId: user.id});
                 }
