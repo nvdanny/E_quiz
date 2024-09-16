@@ -32,7 +32,7 @@ const userSchema = new Schema({
   },
   startExam: {
     type: Number,
-    required: false, 
+    default: 1704067200000,
   },
   submission: { 
     type: Schema.ObjectId, 
