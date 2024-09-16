@@ -10,7 +10,7 @@ module.exports = {
             const timeDifference = currentTime - foundUser.startExam;
             const twentyMinutesInMilliseconds = 20 * 60 * 1000;
             if (timeDifference <= 0 || timeDifference >= twentyMinutesInMilliseconds) {
-                if (foundUser.didExam) {
+                if (foundUser.doingExam) {
                     return {
                         success: true,
                         msg: "Failed"
@@ -49,17 +49,17 @@ module.exports = {
             const foundSubmission = await Submission.findOne({userId: user.id});
             const foundUser = await User.findById(user.id);
             const submitedAnswer = data.answers;
-            if (foundUser.didExam && foundSubmission) {
+            if (foundUser.doingExam && foundSubmission) {
                 return {
                     success: false,
                     error: "Bạn đã hoàn thành bài thi rồi!"
                 }
             }
             foundUser.set({
-                didExam: true,
+                doingExam: true,
             })
             await foundUser.save();
-            if (foundUser.startExam + exam.duration * 60000  + 300000> Date.now()) {
+            if (foundUser.startExam + exam.duration * 60000  + 600000> Date.now()) {
                 if (foundSubmission) {
                     await Submission.deleteMany({userId: user.id});
                 }

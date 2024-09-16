@@ -26,13 +26,13 @@ const userSchema = new Schema({
     type: String,
     required: false,
   },
-  didExam: {
+  doingExam: {
     type: Boolean,
     default: false,
   },
   startExam: {
     type: Number,
-    required: false, 
+    default: 1704067200000,
   },
   submission: { 
     type: Schema.ObjectId, 
