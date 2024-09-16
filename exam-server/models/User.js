@@ -26,7 +26,7 @@ const userSchema = new Schema({
     type: String,
     required: false,
   },
-  didExam: {
+  doingExam: {
     type: Boolean,
     default: false,
   },
