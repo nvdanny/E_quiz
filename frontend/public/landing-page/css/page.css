@@ -855,7 +855,7 @@ label {
   font-size: 13px;
   line-height: 2.4rem;
 }
-.breadcrumbs-section h1 a::after {
+.breadcrumbs-section h1 a::after {  
   content: none;
 }
 .breadcrumbs-section span {

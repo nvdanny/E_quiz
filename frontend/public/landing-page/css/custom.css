@@ -859,7 +859,7 @@ header.stick .header-main.fixed {
     flex: 0 0 40px;
     position: relative;
     top: 4px;
-    color: var(--color-main-01);
+    color: #182dca;
     font-size: 19px;
 }
 .sectio-box-dktg-footer .info {
