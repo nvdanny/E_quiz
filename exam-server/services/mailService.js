@@ -12,7 +12,7 @@ module.exports = {
                 },
               });
               let info = await transporter.sendMail({
-                from: '"E_Quiz" <notify.blndt@gmail.com>',
+                from: '"Bản lĩnh nhà đầu tư" <notify.blndt@gmail.com>',
                 to: email,
                 subject: "Đăng ký thành công",
                 html: html,
