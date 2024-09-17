@@ -27,6 +27,8 @@ module.exports = {
       if (response.error) {
         return res.status(400).json({ msg: response.error });
       }
+      // const mailContent = mailService.registerContent(req.body.email, req.body.password)
+      // mailService.sendMail(response.data.email, mailContent);
       return res.status(200).json(response);
     }
     catch(err) {
