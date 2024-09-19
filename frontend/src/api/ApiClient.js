@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "https://e-quiz-backend.vercel.app/",
-  // baseURL: "http://localhost:5000",
+  // baseURL: "https://e-quiz-backend.vercel.app/",
+  baseURL: "http://localhost:5000",
   withCredentials: true,
 });
 apiClient.interceptors.response.use(

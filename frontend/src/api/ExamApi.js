@@ -94,3 +94,14 @@ export const submitExam = async (token, examId, answers, user) => {
     };
     return apiClient.post(`/api/submission/submit`, payload, {headers});
 }
+
+export const updateShift = async (token, shift) => {
+    const payload = {
+        shift: shift,
+    };
+    const headers = {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+    };
+    return apiClient.post(`/api/submission/shift`, payload, {headers});
+}
