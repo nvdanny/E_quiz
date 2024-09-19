@@ -139,7 +139,7 @@
 			<div class="col-md-12 col-12">
 				<div nh-block="e0xjqzm" nh-block-cache="true" class>
 					<div class="banner-slider">
-						<div class="img"><img
+						<div class="img"><img id="responsiveImage"
 								src="https://ba-exam.s3.ap-southeast-1.amazonaws.com/images/blndt-2024-min.png"></div>
 						<div class="content-slider">
 							<div class="container">
@@ -262,7 +262,7 @@
 		<div class="row no-gutters">
 			<div class="col-md-12 col-12">
 				<div nh-block="xzndgpf" nh-block-cache="true" class>
-					<div nh-anchor="gioi-thieu" class="box-gt" nh-lazy="image-background"
+					<div nh-anchor="gioi-thieu" class="box-gt" nh-lazy="image-background" id="responsiveBackground"
 						data-src="https://ba-exam.s3.ap-southeast-1.amazonaws.com/images/blndt-2024-no-text-min.png">
 						<div class="container">
 							<div class="content-gt">
@@ -358,7 +358,7 @@
 		<div class="row no-gutters">
 			<div class="col-md-12 col-12">
 				<div nh-block="cg0mtnz" nh-block-cache="false" class>
-					<div nh-anchor="the-le" class="box-the-le" nh-lazy="image-background"
+					<div nh-anchor="the-le" class="box-the-le" nh-lazy="image-background" id = "responsiveBackground2"
 						data-src="https://ba-exam.s3.ap-southeast-1.amazonaws.com/images/blndt-2024-no-text-min.png">
 						<div class="container">
 							<div class="content">
@@ -944,6 +944,25 @@
 			});
 		});
 
+	</script>
+	<script>
+		function updateImageSource() {
+			var img = document.getElementById('responsiveImage');
+			var img2 = document.getElementById('responsiveBackground');
+			var img3 = document.getElementById('responsiveBackground2');
+			
+			if (window.innerWidth <= 768) { 
+				img.src = 'https://ba-exam.s3.ap-southeast-1.amazonaws.com/images/blndt-mobile.png';
+				img2.style.backgroundImage = 'url("https://ba-exam.s3.ap-southeast-1.amazonaws.com/images/blndt-mobile-2.png")';
+				img3.style.backgroundImage = 'url("https://ba-exam.s3.ap-southeast-1.amazonaws.com/images/blndt-mobile-2.png")';
+			} else {
+				img.src = 'https://ba-exam.s3.ap-southeast-1.amazonaws.com/images/blndt-2024-min.png';
+				img2.style.backgroundImage = 'url("https://ba-exam.s3.ap-southeast-1.amazonaws.com/images/blndt-2024-no-text-min.png")';
+				img3.style.backgroundImage = 'url("https://ba-exam.s3.ap-southeast-1.amazonaws.com/images/blndt-mobile-2.png")';
+			}
+		}
+		window.onload = updateImageSource;
+		window.onresize = updateImageSource;
 	</script>
 </body>
 

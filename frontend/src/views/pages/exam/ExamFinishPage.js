@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
-import { updateShift } from '../../../api/ExamApi';
 
 const ExamFinish = () => {
   const navigate = useNavigate();
@@ -16,20 +15,12 @@ const ExamFinish = () => {
     navigate('/logout');
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (!selectedSlot) {
       alert('Vui lòng chọn ca thi!');
       return;
     }
     localStorage.setItem('selectedSlot', selectedSlot);
-    try {
-      const token = localStorage.getItem('accessToken');
-      const shift = selectedSlot;
-      const response = await updateShift(token, shift);
-    }
-    catch (err) {
-      console.error('Error fetching exam:', err);
-    }
     setIsSlotSelected(true); // Ẩn phần chọn ca thi và hiển thị thông báo
   };
 
@@ -56,10 +47,10 @@ const ExamFinish = () => {
               <Form.Group controlId="formBasicSelect">
                 <Form.Control as="select" value={selectedSlot} onChange={handleSlotChange}>
                   <option value="">Chọn ca thi</option>
-                  <option value="1">CA 1: 08h00 - 09h00 ngày 06/10/2024</option>
-                  <option value="2">CA 2: 09h45 - 10h45 ngày 06/10/2024</option>
-                  <option value="3">CA 3: 14h00 - 15h00 ngày 06/10/2024</option>
-                  <option value="4">CA 4: 15h45 - 16h45 ngày 06/10/2024</option>
+                  <option value="CA 1">CA 1: 08h00 - 09h00 ngày 06/10/2024</option>
+                  <option value="CA 2">CA 2: 09h45 - 10h45 ngày 06/10/2024</option>
+                  <option value="CA 3">CA 3: 14h00 - 15h00 ngày 06/10/2024</option>
+                  <option value="CA 4">CA 4: 15h45 - 16h45 ngày 06/10/2024</option>
                 </Form.Control>
               </Form.Group>
 
