@@ -2,6 +2,35 @@
     text-align: justify;
 }
 
+.gt {
+    margin-top: 100px;
+}
+
+.money {
+    margin-bottom: 100px;
+    font-size: 3rem; 
+    color: #ffffff; 
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 
+                 0 0 20px rgba(255, 255, 255, 0.6), 
+                 0 0 30px rgba(255, 255, 255, 0.4); 
+    font-weight: bold; 
+    animation: sparkle 1.5s infinite; 
+}
+
+@keyframes sparkle {
+    0%, 100% {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 
+                     0 0 20px rgba(255, 255, 255, 0.6), 
+                     0 0 30px rgba(255, 255, 255, 0.4);
+    }
+    50% {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 1), 
+                     0 0 30px rgba(255, 255, 255, 0.8), 
+                     0 0 40px rgba(255, 255, 255, 0.6);
+    }
+}
+
+
 .contact-section {
     font-family: 'Argentum Sans', sans-serif;
     font-weight: 300;
@@ -327,6 +356,7 @@ header.stick .header-main.fixed {
     background-repeat: no-repeat;
     position: relative;
     padding-bottom: 70px;
+    background-position: center;
 }
 
 .box-gt .inter-img {
@@ -368,7 +398,7 @@ header.stick .header-main.fixed {
 .box-gt .content-gt .top .title-section {
     font-family: 'UTM Nokia', sans-serif;
     margin-bottom: 60px;
-    font-size: 36px;
+    font-size: px;
     font-weight: 400;
 }
 
@@ -404,12 +434,14 @@ header.stick .header-main.fixed {
 
 
 .box-gt .content-gt .content-ncs {
+    font-family: 'Argentum Sans', sans-serif;
     position: relative;
     margin: 60px auto;
     padding-bottom: 50px;
 }
 
 .box-gt .content-gt .content-ncs .inter-ncs {
+    line-height: 60px;
     border: 2px solid #fff;
     background: rgb(255 255 255 / 27%);
     padding: 40px;
@@ -566,6 +598,7 @@ header.stick .header-main.fixed {
 }
 
 .box-the-le .title-section {
+    font-family: 'UTM Nokia', sans-serif;
     margin-bottom: 50px;
 }
 .box-the-le:before {
@@ -732,6 +765,7 @@ header.stick .header-main.fixed {
 }
 
 .box-more .title-section {
+    font-family: 'UTM Nokia', sans-serif;
     margin-bottom: 30px;
 }
 
@@ -976,6 +1010,7 @@ footer .title-section h3{
 }
 .partner .title-section {
     margin-bottom: 30px;
+    font-family: 'UTM Nokia', sans-serif;
 }
 /* .partner--image .item>.img {
     background: #fff;
@@ -991,6 +1026,11 @@ footer .title-section h3{
 
 
 @media (max-width:768px) {
+
+    .title-section {
+        font-size: 22px !important;
+    }
+
     .header-menu>.container-fluid {
         padding: 0;
     }
@@ -1004,7 +1044,7 @@ footer .title-section h3{
         margin: 30px auto;
     }
     .impressive-number .title-section-1{
-        font-size: 20px;
+        font-size: 22px !important; 
     }
 
     .box-gt .content-gt .content-ncs .inter-ncs .counter {
@@ -1068,6 +1108,7 @@ footer .title-section h3{
         background: none;
     }
     .partner .title-section {
+        margin-top: 20px;
         margin-bottom: 20px;
     }
     .logo-section img {
@@ -1120,7 +1161,7 @@ footer .title-section h3{
     }
     
     .title-section {
-        font-size: 28px !important;
+        font-size: 28px;
     }
     .box-gt .content-gt .top .dsc {
         font-size: 12px;
@@ -1539,7 +1580,7 @@ footer .title-section h3{
 }
 
 .impressive-number .title-section-1{
-    font-size: 30px;
+    font-size: 36px;
     font-family: 'UTM Nokia', sans-serif;
     margin-bottom: 60px;
     font-weight: 400;
