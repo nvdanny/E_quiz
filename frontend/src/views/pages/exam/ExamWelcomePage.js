@@ -62,7 +62,7 @@ const ExamWelcomePage = () => {
         </p>
         <p className="text-left ">Chúc bạn hoàn thành tốt bài thi của mình!</p>
 
-        <Button variant="primary" onClick={handleShow} className="mt-3 ">
+        <Button variant="danger" className='text-white mt-3' onClick={handleShow}>
           VÀO THI
         </Button>
       </div>
@@ -85,7 +85,7 @@ const ExamWelcomePage = () => {
           <Button variant="secondary" onClick={handleClose}>
             Hủy
           </Button>
-          <Button variant="primary" onClick={startExam}>
+          <Button variant="danger" className='text-white' onClick={startExam}>
             Bắt đầu thi
           </Button>
         </Modal.Footer>
