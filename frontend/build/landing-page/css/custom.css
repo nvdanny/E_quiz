@@ -1212,7 +1212,9 @@ footer .title-section h3{
     }
 }
 
-@media (max-width:767px){
+
+@media (max-width:767px) {
+
     .box-gt .inter-img .img-01 {
         max-width: 315px;
     }
