@@ -154,9 +154,10 @@ const Login = () => {
                     <CRow className="justify-content-md-center">
                       <CCol className="text-center mt-4" >
                         <CButton
-                          color="primary"
+                          color="danger"
                           className="px-4"
                           onClick={handleLogin}
+                          style={{color:'#ffffff'}}
                         >
                           Đăng nhập
                         </CButton>
