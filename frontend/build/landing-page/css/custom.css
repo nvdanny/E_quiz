@@ -881,7 +881,7 @@ header.stick .header-main.fixed {
 .partner--image-3 .item {
     text-align: center;
     margin-bottom: 2rem;
-    flex: 0 0 16.6666666%;
+    flex: 0 0 33.3333333%;
     max-width: 100%;
     padding-left: 10px;
     padding-right: 10px;
@@ -889,7 +889,7 @@ header.stick .header-main.fixed {
 
 .partner--image-3 .item img {
     width: 100%;
-    height: 10rem;
+    height: 12rem;
     padding: 1rem;
     object-fit: contain;
 }
@@ -906,7 +906,7 @@ header.stick .header-main.fixed {
 .partner--image-4 .item {
     text-align: center;
     margin-bottom: 2rem;
-    flex: 0 0 14.2857142857%;
+    flex: 0 0 33.33333333%;
     max-width: 100%;
     padding-left: 10px;
     padding-right: 10px;
@@ -931,7 +931,7 @@ header.stick .header-main.fixed {
 .partner--image-5 .item {
     text-align: center;
     margin-bottom: 2rem;
-    flex: 0 0 14.2857142857%;
+    flex: 0 0 20%;
     max-width: 100%;
     padding-left: 10px;
     padding-right: 10px;
@@ -939,11 +939,35 @@ header.stick .header-main.fixed {
 
 .partner--image-5 .item img {
     width: 100%;
-    height: 10rem;
+    height: 15rem;
     padding: 1rem;
     object-fit: contain;
 }
 
+.partner--image-6 {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 6rem;
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.partner--image-6 .item {
+    text-align: center;
+    margin-bottom: 2rem;
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.partner--image-6 .item img {
+    width: 100%;
+    height: 12rem;
+    padding: 1rem;
+    object-fit: contain;
+}
 
 .col-w100 .partner--image .item {
     flex: 0 0 100%;
