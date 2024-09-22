@@ -869,6 +869,82 @@ header.stick .header-main.fixed {
     object-fit: contain;
 }
 
+.partner--image-3 {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 6rem;
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.partner--image-3 .item {
+    text-align: center;
+    margin-bottom: 2rem;
+    flex: 0 0 16.6666666%;
+    max-width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.partner--image-3 .item img {
+    width: 100%;
+    height: 10rem;
+    padding: 1rem;
+    object-fit: contain;
+}
+
+.partner--image-4 {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 6rem;
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.partner--image-4 .item {
+    text-align: center;
+    margin-bottom: 2rem;
+    flex: 0 0 14.2857142857%;
+    max-width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.partner--image-4 .item img {
+    width: 100%;
+    height: 10rem;
+    padding: 1rem;
+    object-fit: contain;
+}
+
+.partner--image-5 {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 6rem;
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.partner--image-5 .item {
+    text-align: center;
+    margin-bottom: 2rem;
+    flex: 0 0 14.2857142857%;
+    max-width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.partner--image-5 .item img {
+    width: 100%;
+    height: 10rem;
+    padding: 1rem;
+    object-fit: contain;
+}
+
+
 .col-w100 .partner--image .item {
     flex: 0 0 100%;
     max-width: 100%;
