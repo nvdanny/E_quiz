@@ -36,7 +36,7 @@ module.exports = {
                     <body style="font-family: Arial, sans-serif; line-height: 1.6;">
                         <div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd;">
                             <h2 style="color: #2c3e50;">Thân gửi bạn,</h2>
-                            <p><strong>CLB Chứng khoán Học viện Ngân hàng - SEC</strong> chân thành cảm ơn bạn đã dành sự quan tâm và đăng ký tham gia Cuộc thi <strong>Bản lĩnh Nhà đầu tư 2024</strong>.</p>
+                            <p><strong>BTC Cuộc thi Bản lĩnh Nhà đầu tư 2024</strong> chân thành cảm ơn bạn đã dành sự quan tâm và đăng ký tham gia Cuộc thi <strong>Bản lĩnh Nhà đầu tư 2024</strong>.</p>
                             <p>BTC xin gửi bạn thông tin chi tiết để tham dự <strong>Vòng 1 - Test Online</strong>:</p>
                             <ul>
                                 <li><strong>Tài khoản:</strong> ${email}</li>
