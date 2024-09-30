@@ -806,7 +806,7 @@ header.stick .header-main.fixed {
 .partner--image .item {
     text-align: center;
     margin-bottom: 2rem;
-    flex: 0 0 25%;
+    flex: 0 0 20%;
     max-width: 50%;
     padding-left: 10px;
     padding-right: 10px;
@@ -815,6 +815,156 @@ header.stick .header-main.fixed {
 .partner--image .item img {
     width: 100%;
     height: 20rem;
+    padding: 1rem;
+    object-fit: contain;
+}
+
+.partner--image-1 {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 6rem;
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.partner--image-1 .item {
+    text-align: center;
+    margin-bottom: 2rem;
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.partner--image-1 .item img {
+    width: 100%;
+    height: 40rem;
+    padding: 1rem;
+    object-fit: contain;
+}
+
+.partner--image-2 {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 6rem;
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.partner--image-2 .item {
+    text-align: center;
+    margin-bottom: 2rem;
+    flex: 0 0 70%;
+    max-width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.partner--image-2 .item img {
+    width: 100%;
+    height: 25rem;
+    padding: 1rem;
+    object-fit: contain;
+}
+
+.partner--image-3 {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 6rem;
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.partner--image-3 .item {
+    text-align: center;
+    margin-bottom: 2rem;
+    flex: 0 0 33.3333333%;
+    max-width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.partner--image-3 .item img {
+    width: 100%;
+    height: 12rem;
+    padding: 1rem;
+    object-fit: contain;
+}
+
+.partner--image-4 {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 6rem;
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.partner--image-4 .item {
+    text-align: center;
+    margin-bottom: 2rem;
+    flex: 0 0 33.33333333%;
+    max-width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.partner--image-4 .item img {
+    width: 100%;
+    height: 10rem;
+    padding: 1rem;
+    object-fit: contain;
+}
+
+.partner--image-5 {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 6rem;
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.partner--image-5 .item {
+    text-align: center;
+    margin-bottom: 2rem;
+    flex: 0 0 20%;
+    max-width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.partner--image-5 .item img {
+    width: 100%;
+    height: 15rem;
+    padding: 1rem;
+    object-fit: contain;
+}
+
+.partner--image-6 {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 0rem;
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.partner--image-6 .item {
+    text-align: center;
+    margin-bottom: 1rem;
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.partner--image-6 .item img {
+    width: 100%;
+    height: 25rem;
     padding: 1rem;
     object-fit: contain;
 }
