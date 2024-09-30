@@ -34,7 +34,7 @@ const Login = () => {
       setErrorMessage("Vui lòng nhập một địa chỉ email hợp lệ.");
       return;
     }
-    if (password.length < 5) {
+    if (password.length < 3) {
       setErrorMessage("Vui lòng nhập mật khẩu hơp lệ.");
       return;
     }

@@ -211,7 +211,7 @@ const RegisterModal = ({ visible, toggle }) => {
                 className="form-control"
                 id="displayName"
                 placeholder="Họ và tên"
-                value={formData.displayName}
+                value={formData.displayName} 
                 onChange={handleChange}
                 required
               />
@@ -228,6 +228,7 @@ const RegisterModal = ({ visible, toggle }) => {
                 value={formData.password}
                 onChange={handleChange}
                 required
+                minLength={3}
               />
             </div>
             <div className="form-group col-md-6">
