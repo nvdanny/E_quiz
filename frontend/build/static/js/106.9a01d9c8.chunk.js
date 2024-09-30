@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkfrontend=self.webpackChunkfrontend||[]).push([[106],{106:(e,t,o)=>{o.r(t),o.d(t,{default:()=>l});var r=o(5043),n=o(3216),a=o(579);const l=()=>{const e=(0,n.Zp)();return(0,r.useEffect)((()=>{localStorage.removeItem("accessToken"),localStorage.removeItem("userInfo"),localStorage.removeItem("timeLeft"),localStorage.removeItem("timeFinish"),localStorage.removeItem("selectedAnswers"),e("/login")}),[e]),(0,a.jsx)("div",{children:"\u0110ang \u0111\u0103ng xu\u1ea5t..."})}}}]);
-//# sourceMappingURL=106.9a01d9c8.chunk.js.map
